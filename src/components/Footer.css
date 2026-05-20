@@ -33,31 +33,30 @@
 
 .footer-brand .brand-logo-container {
   display: inline-flex;
-  align-items: flex-end;
+  align-items: center;
   margin-bottom: 0.8rem;
+}
+
+.footer-brand .brand-logo-img {
+  height: 38px;
+  width: auto;
+  margin-right: 12px;
+  filter: drop-shadow(0 0 10px rgba(0, 242, 254, 0.35));
+  object-fit: contain;
 }
 
 .footer-brand .brand-logo {
   font-family: var(--font-display);
   font-weight: 900;
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   letter-spacing: 0.05em;
   color: var(--clr-text);
-  line-height: 0.85;
+  line-height: 1;
 }
 
 .footer-brand .brand-ink {
   color: transparent;
   -webkit-text-stroke: 1.5px var(--clr-text);
-}
-
-.footer-brand .brand-dot {
-  display: block;
-  width: 8px;
-  height: 8px;
-  background-color: var(--clr-accent);
-  margin-left: 8px;
-  margin-bottom: 3px;
 }
 
 .footer-note {

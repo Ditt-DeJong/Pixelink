@@ -3,6 +3,7 @@ import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import Services from './components/Services';
 import Works from './components/Works';
+import Contact from './components/Contact';
 import Footer from './components/Footer';
 import { motion } from 'framer-motion';
 import './index.css';
@@ -50,6 +51,8 @@ function App() {
         <Services />
         <div className="divider"></div>
         <Works />
+        <div className="divider"></div>
+        <Contact />
         <div className="divider"></div>
       </main>
       <Footer />

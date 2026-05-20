@@ -17,36 +17,36 @@ const Navbar = () => {
 
   const navVariants = {
     hidden: { y: -100, opacity: 0 },
-    visible: { 
-      y: 0, 
-      opacity: 1, 
-      transition: { type: "spring", stiffness: 100, damping: 20 } 
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: { type: "spring", stiffness: 100, damping: 20 }
     }
   };
 
   return (
-    <motion.nav 
+    <motion.nav
       className={`nav-wrapper ${scrolled ? 'nav-scrolled' : ''}`}
       variants={navVariants}
       initial="hidden"
       animate="visible"
     >
       <div className="container nav-content">
-        <motion.a 
-          href="#" 
+        <motion.a
+          href="#"
           className="brand"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
           <div className="brand-logo-container">
-            <span className="brand-logo">PIXEL<span className="brand-ink">INK</span></span>
-            <span className="brand-dot"></span>
+            <img src="/images/logo.png" alt="Pixelink Logo" className="brand-logo-img" />
+            <span className="brand-logo">PIXEL<span className="brand-ink">INK.IO</span></span>
           </div>
         </motion.a>
 
         <div className={`nav-links ${mobileMenuOpen ? 'nav-open' : ''}`}>
           {['Home', 'Services', 'Works'].map((link, i) => (
-            <motion.a 
+            <motion.a
               key={link}
               href={`#${link.toLowerCase()}`}
               onClick={() => setMobileMenuOpen(false)}
@@ -56,9 +56,9 @@ const Navbar = () => {
               {link}
             </motion.a>
           ))}
-          <motion.a 
-            href="#contact" 
-            className="btn btn-primary" 
+          <motion.a
+            href="#contact"
+            className="btn btn-primary"
             onClick={() => setMobileMenuOpen(false)}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}

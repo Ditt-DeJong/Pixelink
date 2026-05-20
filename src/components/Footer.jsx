@@ -36,8 +36,8 @@ const Footer = () => {
         <div className="footer-bottom">
           <div className="footer-brand">
             <div className="brand-logo-container">
+              <img src="/images/logo.png" alt="Pixelink Logo" className="brand-logo-img" />
               <span className="brand-logo">PIXEL<span className="brand-ink">INK</span></span>
-              <span className="brand-dot"></span>
             </div>
             <p className="footer-note">Premium Digital Studio. Based in Indonesia.</p>
           </div>

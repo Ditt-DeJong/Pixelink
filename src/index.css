@@ -8,21 +8,23 @@
 /* ------- CSS Variables ------- */
 :root {
   /* Colors */
-  --bg-deep: #05070a;
-  --bg-surface: #0b1018;
-  --bg-card: #0d131d;
-  --bg-card-hover: #131b29;
+  --bg-deep: #030712;
+  --bg-surface: #090d16;
+  --bg-card: #0e1420;
+  --bg-card-hover: #141d2f;
 
-  --clr-accent: #00e5ff;
-  --clr-accent-dim: rgba(0, 229, 255, 0.12);
-  --clr-accent-glow: rgba(0, 229, 255, 0.35);
+  --clr-accent: #00f2fe;
+  --clr-accent-blue: #4facfe;
+  --clr-accent-dim: rgba(0, 242, 254, 0.08);
+  --clr-accent-glow: rgba(0, 242, 254, 0.25);
+  --clr-gradient: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
 
-  --clr-text: #f8fafc;
-  --clr-text-muted: #94a3b8;
-  --clr-text-subtle: #475569;
+  --clr-text: #f9fafb;
+  --clr-text-muted: #9ca3af;
+  --clr-text-subtle: #4b5563;
 
-  --clr-border: rgba(255, 255, 255, 0.08);
-  --clr-border-hover: rgba(0, 229, 255, 0.3);
+  --clr-border: rgba(255, 255, 255, 0.06);
+  --clr-border-hover: rgba(0, 242, 254, 0.25);
 
   /* Typography */
   --font-display: 'Unbounded', sans-serif;
@@ -83,8 +85,14 @@ body::before {
   z-index: -1;
   pointer-events: none;
   background:
-    radial-gradient(ellipse 60% 50% at 20% 20%, rgba(45, 170, 255, 0.07) 0%, transparent 60%),
-    radial-gradient(ellipse 50% 40% at 80% 80%, rgba(0, 80, 179, 0.07) 0%, transparent 60%);
+    radial-gradient(ellipse 60% 50% at 20% 20%, rgba(0, 242, 254, 0.05) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 80% 80%, rgba(79, 172, 254, 0.05) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 30% at 50% 50%, rgba(3, 7, 18, 0.9) 0%, #030712 100%);
+  background-image: 
+    radial-gradient(rgba(0, 242, 254, 0.03) 1.5px, transparent 1.5px),
+    radial-gradient(ellipse 60% 50% at 20% 20%, rgba(0, 242, 254, 0.05) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 80% 80%, rgba(79, 172, 254, 0.05) 0%, transparent 60%);
+  background-size: 24px 24px, 100% 100%, 100% 100%;
 }
 
 /* ------- Custom Cursor ------- */
@@ -200,4 +208,97 @@ h1, h2, h3 {
   width: 100%;
   height: 1px;
   background: var(--clr-border);
+}
+
+/* ------- Cyber Halftone Utilities ------- */
+.gradient-text {
+  background: var(--clr-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.pixel-corners {
+  position: relative;
+}
+
+.pixel-corners::before,
+.pixel-corners::after {
+  content: '';
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: var(--clr-accent);
+  z-index: 10;
+  opacity: 0.7;
+}
+
+.pixel-corners::before {
+  top: 4px;
+  left: 4px;
+  box-shadow: 4px 0 0 var(--clr-accent), 0 4px 0 var(--clr-accent);
+}
+
+.pixel-corners::after {
+  bottom: 4px;
+  right: 4px;
+  box-shadow: -4px 0 0 var(--clr-accent), 0 -4px 0 var(--clr-accent);
+}
+
+.pixel-card {
+  position: relative;
+  background: var(--bg-card);
+  border: 1px solid var(--clr-border);
+  border-radius: 4px;
+  padding: 2rem;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+
+.pixel-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--clr-gradient);
+  opacity: 0;
+  z-index: -1;
+  transition: opacity 0.3s ease;
+}
+
+.pixel-card:hover {
+  border-color: var(--clr-accent);
+  box-shadow: 0 0 25px rgba(0, 242, 254, 0.15);
+  transform: translateY(-4px);
+}
+
+.halftone-overlay {
+  position: absolute;
+  inset: 0;
+  opacity: 0.05;
+  background-image: radial-gradient(var(--clr-accent) 1px, transparent 1px);
+  background-size: 8px 8px;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.pixel-card:hover .halftone-overlay {
+  opacity: 0.1;
+}
+
+/* Form inputs styling */
+.pixel-input {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--clr-border);
+  border-radius: 4px;
+  padding: 0.85rem 1rem;
+  color: var(--clr-text);
+  font-family: var(--font-body);
+  transition: all 0.25s ease;
+}
+
+.pixel-input:focus {
+  outline: none;
+  border-color: var(--clr-accent);
+  background: rgba(0, 242, 254, 0.03);
+  box-shadow: 0 0 10px rgba(0, 242, 254, 0.1);
 }
