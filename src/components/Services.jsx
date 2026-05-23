@@ -1,118 +1,161 @@
 import React from 'react';
 import { Check, Clock } from 'lucide-react';
 import { motion } from 'framer-motion';
-import './Services.css';
 
 const servicesList = [
   {
-    tier: "Basic",
+    tier: "Dasar",
     title: "Undangan Digital",
-    subName: "Pernikahan & acara",
-    price: "Rp 200rb - 400rb",
+    subName: "Pernikahan & Acara Spesial",
+    price: "Rp 75rb - 150rb",
     priceSuffix: " / proyek",
     duration: "2-3 Hari",
-    features: ["1 halaman animasi", "RSVP form", "Notifikasi WhatsApp", "Mobile-responsive", "Hosting & SSL included", "1x revisi"]
+    features: ["1 halaman animasi premium", "Formulir RSVP interaktif", "Notifikasi otomatis WhatsApp", "Tampilan optimal di semua perangkat", "Hosting & SSL sudah termasuk", "1x revisi desain"]
   },
   {
-    tier: "Standard",
+    tier: "Standar",
     title: "Landing Page Bisnis",
-    subName: "Bisnis & personal brand",
-    price: "Rp 600rb - 1,2 jt",
+    subName: "Bisnis & Personal Branding",
+    price: "Rp 300rb - 500rb",
     priceSuffix: " / proyek",
     duration: "3-5 Hari",
-    features: ["Min 4 Section", "Maks 6 section", "CTA & form kontak", "WhatsApp button", "SEO dasar & Analytics", "Hosting & SSL (tahun pertama)", "2x revisi"]
+    features: ["Minimal 4 seksi konten", "Maksimal 6 seksi konten", "Tombol CTA & formulir kontak", "Integrasi tombol WhatsApp", "SEO dasar & Google Analytics", "Hosting & SSL (tahun pertama)", "2x revisi desain"]
   },
   {
     tier: "Premium",
     title: "Company Profile",
-    subName: "Perusahaan & organisasi",
-    price: "Rp 1,2 jt - 2,1 jt",
+    subName: "Perusahaan & Organisasi",
+    price: "Rp 600rb - 1jt",
     priceSuffix: " / proyek",
     duration: "5-7 Hari",
-    features: ["5-7 halaman", "Full SEO + Google Analytics", "Form kontak & Google Maps", "Blog opsional", "Hosting & SSL (tahun pertama)", "3x revisi + 7-day support"]
+    features: ["5-7 halaman lengkap", "SEO penuh + Google Analytics", "Formulir kontak & Google Maps", "Blog opsional terintegrasi", "Hosting & SSL (tahun pertama)", "3x revisi + dukungan 7 hari"]
   },
   {
     tier: "Tambahan",
-    title: "Portfolio Website",
-    subName: "Individu & kreator",
-    price: "Rp 450rb - 800rb",
+    title: "Website Portofolio",
+    subName: "Individu & Kreator Konten",
+    price: "Rp 250rb - 400rb",
     priceSuffix: " / proyek",
     duration: "3-4 Hari",
-    features: ["3-5 halaman", "Galeri karya & proyek", "Halaman kontak + form", "SEO dasar", "Mobile-responsive", "2x revisi"]
+    features: ["3-5 halaman profesional", "Galeri karya & proyek pilihan", "Halaman kontak + formulir", "SEO dasar teroptimasi", "Tampilan responsif semua layar", "2x revisi desain"]
   },
   {
     tier: "Bulanan",
-    title: "Maintenance",
-    subName: "Semua klien aktif",
+    title: "Pemeliharaan Website",
+    subName: "Semua Klien Aktif",
     price: "Rp 150rb - 350rb",
     priceSuffix: " / bulan",
-    duration: "24/7 Support",
-    features: ["Basic: update konten 2x/bln", "Basic: backup rutin", "Full: update unlimited", "Full: laporan performa", "Full: perbaikan bug minor"]
+    duration: "Dukungan 24/7",
+    features: ["Basic: pembaruan konten 2x/bulan", "Basic: backup data rutin", "Full: pembaruan konten tak terbatas", "Full: laporan performa bulanan", "Full: perbaikan bug & error minor"]
   }
 ];
 
 const Services = () => {
   return (
-    <section id="services" className="pricing-section">
-      <div className="container">
-        
-        <motion.div 
-          className="section-head text-center"
+    <section id="services" className="py-32 relative">
+      <div className="max-w-[1160px] mx-auto px-10">
+
+        {/* Header */}
+        <motion.div
+          className="flex flex-col items-center gap-4 mb-20 text-center"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.5 }}
           transition={{ duration: 0.6 }}
         >
-          <span className="label label--accent">[ Investasi & Layanan ]</span>
-          <h2 className="section-title">Pilih Paket <span className="text-tech">Terbaik</span></h2>
-          <p className="section-desc">Transparansi harga dengan kualitas kelas premium. Kami menyediakan paket yang telah dikalibrasi untuk berbagai skala kebutuhan digital Anda.</p>
+          <span
+            className="text-[0.72rem] tracking-[0.2em] uppercase text-[var(--clr-accent)]"
+            style={{ fontFamily: 'var(--font-mono)' }}
+          >
+            [ Investasi &amp; Layanan ]
+          </span>
+          <h2
+            className="text-[clamp(2rem,4vw,3.25rem)] uppercase"
+            style={{ fontFamily: 'var(--font-display)' }}
+          >
+            Pilih Paket <span className="text-tech">Terbaik</span>
+          </h2>
+          <p className="text-[var(--clr-text-muted)] max-w-[600px] text-[1.05rem] mt-2">
+            Harga transparan dengan kualitas premium. Setiap paket dirancang khusus untuk memenuhi berbagai skala kebutuhan digital Anda — dari usaha rintisan hingga perusahaan berkembang.
+          </p>
         </motion.div>
 
-        <div className="pricing-grid">
+        {/* Grid */}
+        <div className="grid grid-cols-[repeat(auto-fit,minmax(260px,1fr))] gap-6">
           {servicesList.map((srv, index) => (
-            <motion.div 
-              className="pricing-card pixel-card pixel-corners" 
+            <motion.div
               key={index}
+              className="pixel-corners relative flex flex-col bg-[var(--bg-card)] border border-[var(--clr-border)] rounded-[4px] p-8 overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:border-[var(--clr-accent)] hover:shadow-[0_0_25px_rgba(0,242,254,0.15)]"
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
               whileHover={{ y: -8, transition: { duration: 0.2 } }}
             >
-              <div className="halftone-overlay"></div>
-              
-              <div className="card-header">
-                <span className="tier-badge">{srv.tier}</span>
-                <h3 className="card-title">{srv.title}</h3>
-                <p className="card-desc">{srv.subName}</p>
-                <div className="card-price">
-                  <div className="price-value">{srv.price}<span className="price-suffix">{srv.priceSuffix}</span></div>
+              <div className="halftone-overlay" />
+
+              {/* Card Header */}
+              <div>
+                <span
+                  className="inline-block bg-[var(--bg-card-hover)] text-[var(--clr-text)] px-3 py-1 rounded-full text-[0.75rem] mb-4 border border-[var(--clr-border)] transition-all duration-300 group-hover:bg-[rgba(0,242,254,0.08)] group-hover:border-[var(--clr-accent)] group-hover:text-[var(--clr-accent)]"
+                  style={{ fontFamily: 'var(--font-mono)' }}
+                >
+                  {srv.tier}
+                </span>
+                <h3
+                  className="text-[1.25rem] font-bold mb-2"
+                  style={{ fontFamily: 'var(--font-display)' }}
+                >
+                  {srv.title}
+                </h3>
+                <p className="text-[0.85rem] text-[var(--clr-text-muted)] mb-6 min-h-[40px]">
+                  {srv.subName}
+                </p>
+                <div className="mb-6">
+                  <span
+                    className="text-[1.3rem] font-extrabold text-[var(--clr-text)] leading-tight"
+                    style={{ fontFamily: 'var(--font-display)' }}
+                  >
+                    {srv.price}
+                    <span
+                      className="text-[0.85rem] text-[var(--clr-text-muted)] font-normal ml-1"
+                      style={{ fontFamily: 'var(--font-body)' }}
+                    >
+                      {srv.priceSuffix}
+                    </span>
+                  </span>
                 </div>
                 {srv.duration && (
-                  <div className="card-duration">
-                    <Clock size={14} className="duration-icon" />
+                  <div
+                    className="flex items-center gap-2 text-[0.75rem] text-[var(--clr-accent)] opacity-80 mb-0"
+                    style={{ fontFamily: 'var(--font-mono)' }}
+                  >
+                    <Clock size={14} className="shrink-0" />
                     <span>{srv.duration}</span>
                   </div>
                 )}
               </div>
 
-              <div className="card-divider"></div>
+              <div className="w-full h-px bg-[var(--clr-border)] my-6" />
 
-              <div className="card-features">
-                <ul>
+              {/* Features */}
+              <div className="grow mb-10">
+                <ul className="flex flex-col gap-4">
                   {srv.features.map((feat, idx) => (
-                    <li key={idx}>
-                      <Check size={16} strokeWidth={3} className="check-icon" /> 
+                    <li key={idx} className="flex items-start gap-3 text-[0.9rem] text-white/45 transition-colors duration-300">
+                      <Check size={16} strokeWidth={3} className="text-[var(--clr-accent)] shrink-0 mt-0.5" />
                       {feat}
                     </li>
                   ))}
                 </ul>
               </div>
 
-              <div className="card-footer">
-                <motion.a 
-                  href="#planner" 
-                  className="btn btn-ghost w-100 pixel-corners"
+              {/* Footer */}
+              <div className="mt-auto">
+                <motion.a
+                  href="#planner"
+                  className="pixel-corners w-full flex justify-center items-center gap-2 bg-transparent text-[var(--clr-text)] px-6 py-3 text-[0.78rem] tracking-[0.08em] uppercase rounded-[4px] no-underline border border-[var(--clr-border)] transition-all duration-300 hover:border-[var(--clr-accent)] hover:text-[var(--clr-accent)]"
+                  style={{ fontFamily: 'var(--font-mono)' }}
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                 >

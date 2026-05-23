@@ -1,13 +1,11 @@
-/* =============================================
-   PIXELINK — Global Design System
-   Premium Dark Studio Aesthetic
-   ============================================= */
-
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,700&family=Major+Mono+Display&family=Unbounded:wght@400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 /* ------- CSS Variables ------- */
 :root {
-  /* Colors */
   --bg-deep: #030712;
   --bg-surface: #090d16;
   --bg-card: #0e1420;
@@ -26,29 +24,16 @@
   --clr-border: rgba(255, 255, 255, 0.06);
   --clr-border-hover: rgba(0, 242, 254, 0.25);
 
-  /* Typography */
   --font-display: 'Unbounded', sans-serif;
   --font-mono: 'Space Mono', monospace;
   --font-body: 'Space Grotesk', sans-serif;
   --font-tech: 'Major Mono Display', monospace;
-  --font-tech-alt: 'Space Grotesk', sans-serif;
-
-  /* Spacing */
-  --section-py: 8rem;
 }
 
-/* ------- Base Reset ------- */
-*, *::before, *::after {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  /* Hide default cursor on links/buttons to use custom cursor */
-}
+/* ------- Base ------- */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-html {
-  scroll-behavior: smooth;
-  font-size: 16px;
-}
+html { scroll-behavior: smooth; }
 
 body {
   font-family: var(--font-body);
@@ -57,15 +42,18 @@ body {
   overflow-x: hidden;
   line-height: 1.7;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  cursor: none; /* Hide default cursor to use custom cursor */
-}
-
-a, button, input, textarea, select {
   cursor: none;
 }
 
-/* ------- Grain Texture Overlay ------- */
+a, button, input, textarea, select { cursor: none; }
+
+h1, h2, h3 {
+  font-family: var(--font-display);
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+}
+
+/* ------- Grain Texture ------- */
 body::before {
   content: '';
   position: fixed;
@@ -78,148 +66,25 @@ body::before {
   opacity: 0.04;
 }
 
-/* ------- Ambient Glow BG ------- */
-.ambient-glow {
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  background:
-    radial-gradient(ellipse 60% 50% at 20% 20%, rgba(0, 242, 254, 0.05) 0%, transparent 60%),
-    radial-gradient(ellipse 50% 40% at 80% 80%, rgba(79, 172, 254, 0.05) 0%, transparent 60%),
-    radial-gradient(ellipse 40% 30% at 50% 50%, rgba(3, 7, 18, 0.9) 0%, #030712 100%);
-  background-image: 
-    radial-gradient(rgba(0, 242, 254, 0.03) 1.5px, transparent 1.5px),
-    radial-gradient(ellipse 60% 50% at 20% 20%, rgba(0, 242, 254, 0.05) 0%, transparent 60%),
-    radial-gradient(ellipse 50% 40% at 80% 80%, rgba(79, 172, 254, 0.05) 0%, transparent 60%);
-  background-size: 24px 24px, 100% 100%, 100% 100%;
+/* ------- Keyframes ------- */
+@keyframes pulse-live {
+  0%   { opacity: 0.5; box-shadow: 0 0 0px rgba(16,185,129,0); }
+  50%  { opacity: 1;   box-shadow: 0 0 12px rgba(16,185,129,0.8); }
+  100% { opacity: 0.5; box-shadow: 0 0 0px rgba(16,185,129,0); }
 }
 
-/* ------- Custom Cursor ------- */
-.custom-cursor {
-  width: 32px;
-  height: 32px;
-  border: 1px solid var(--clr-accent);
-  border-radius: 50%;
-  position: fixed;
-  top: 0;
-  left: 0;
-  pointer-events: none;
-  z-index: 9999;
-  background-color: rgba(0, 229, 255, 0.1);
-  backdrop-filter: blur(2px);
-  mix-blend-mode: difference;
+@keyframes float {
+  from { transform: translate(0, 0); }
+  to   { transform: translate(30px, -30px); }
 }
 
-/* ------- Layout Helpers ------- */
-.container {
-  max-width: 1160px;
-  margin: 0 auto;
-  padding: 0 2.5rem;
+@keyframes pulse-deco-dot {
+  0%   { opacity: 0.1; }
+  100% { opacity: 1; background-color: var(--clr-accent); }
 }
 
-/* ------- Typography Scale ------- */
-.label {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--clr-text-muted);
-}
-
-.label--accent {
-  color: var(--clr-accent);
-}
-
-.text-tech {
-  font-family: var(--font-tech);
-  font-weight: 400;
-  color: var(--clr-accent);
-  text-transform: lowercase;
-  letter-spacing: 0.1em;
-}
-
-h1, h2, h3 {
-  font-family: var(--font-display);
-  line-height: 1.1;
-  letter-spacing: -0.03em;
-}
-
-/* ------- Reusable Button ------- */
-.btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-family: var(--font-mono);
-  font-size: 0.78rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  border-radius: 4px;
-  cursor: none;
-  text-decoration: none;
-  transition: all 0.25s ease;
-  border: 1px solid transparent;
-  position: relative;
-  overflow: hidden;
-}
-
-.btn::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: white;
-  mix-blend-mode: overlay;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.btn:hover::after {
-  opacity: 0.15;
-}
-
-.btn-primary {
-  background: var(--clr-accent);
-  color: var(--bg-deep);
-  padding: 0.75rem 1.5rem;
-  font-weight: 700;
-  border-color: var(--clr-accent);
-}
-
-.btn-primary:hover {
-  background: var(--bg-surface);
-  color: var(--clr-accent);
-  box-shadow: 0 0 20px var(--clr-accent-glow);
-}
-
-.btn-ghost {
-  background: transparent;
-  color: var(--clr-text);
-  padding: 0.75rem 1.5rem;
-  border-color: var(--clr-border);
-}
-
-.btn-ghost:hover {
-  border-color: var(--clr-accent);
-  color: var(--clr-accent);
-}
-
-/* ------- Divider line ------- */
-.divider {
-  width: 100%;
-  height: 1px;
-  background: var(--clr-border);
-}
-
-/* ------- Cyber Halftone Utilities ------- */
-.gradient-text {
-  background: var(--clr-gradient);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.pixel-corners {
-  position: relative;
-}
+/* ------- Pixel Corners (pseudo-element trick) ------- */
+.pixel-corners { position: relative; }
 
 .pixel-corners::before,
 .pixel-corners::after {
@@ -233,43 +98,79 @@ h1, h2, h3 {
 }
 
 .pixel-corners::before {
-  top: 4px;
-  left: 4px;
+  top: 4px; left: 4px;
   box-shadow: 4px 0 0 var(--clr-accent), 0 4px 0 var(--clr-accent);
 }
 
 .pixel-corners::after {
-  bottom: 4px;
-  right: 4px;
+  bottom: 4px; right: 4px;
   box-shadow: -4px 0 0 var(--clr-accent), 0 -4px 0 var(--clr-accent);
 }
 
-.pixel-card {
-  position: relative;
-  background: var(--bg-card);
-  border: 1px solid var(--clr-border);
-  border-radius: 4px;
-  padding: 2rem;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  overflow: hidden;
+/* ------- Gradient Text Utilities ------- */
+.text-tech {
+  font-family: var(--font-tech);
+  font-weight: 400;
+  color: var(--clr-accent);
+  text-transform: lowercase;
+  letter-spacing: 0.1em;
 }
 
-.pixel-card::before {
+.text-outline {
+  font-family: var(--font-display);
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--clr-text-muted);
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+
+.text-solid {
+  font-family: var(--font-display);
+  color: var(--clr-text);
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+
+.text-cyan-glow {
+  background: var(--clr-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 12px rgba(0, 242, 254, 0.25));
+}
+
+.text-blue-glow {
+  color: #60a5fa;
+  filter: drop-shadow(0 0 8px rgba(96, 165, 250, 0.3));
+}
+
+.brand-ink {
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--clr-text);
+}
+
+/* ------- Button hover overlay trick ------- */
+.btn-overlay::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: var(--clr-gradient);
+  background: white;
+  mix-blend-mode: overlay;
   opacity: 0;
-  z-index: -1;
   transition: opacity 0.3s ease;
 }
+.btn-overlay:hover::after { opacity: 0.15; }
 
-.pixel-card:hover {
-  border-color: var(--clr-accent);
-  box-shadow: 0 0 25px rgba(0, 242, 254, 0.15);
-  transform: translateY(-4px);
+/* ------- Active filter bg (framer layoutId) ------- */
+.active-filter-bg {
+  position: absolute;
+  inset: 0;
+  background: var(--clr-gradient);
+  border-radius: 100px;
+  z-index: -1;
+  box-shadow: 0 4px 15px rgba(0, 242, 254, 0.35);
 }
 
+/* ------- Halftone overlay ------- */
 .halftone-overlay {
   position: absolute;
   inset: 0;
@@ -280,11 +181,24 @@ h1, h2, h3 {
   transition: opacity 0.3s ease;
 }
 
-.pixel-card:hover .halftone-overlay {
-  opacity: 0.1;
+/* ------- Project grid mesh ------- */
+.project-grid-mesh {
+  position: absolute;
+  inset: 0;
+  opacity: 0.2;
+  background-image: radial-gradient(var(--clr-accent) 1px, transparent 1px);
+  background-size: 12px 12px;
+  pointer-events: none;
+  z-index: 1;
+  transition: opacity 0.4s ease;
 }
 
-/* Form inputs styling */
+/* ------- Deco dots animation ------- */
+.grid-deco-dot:nth-child(1) { animation: pulse-deco-dot 1.5s infinite ease-in-out alternate; }
+.grid-deco-dot:nth-child(2) { animation: pulse-deco-dot 1.5s infinite ease-in-out alternate 0.5s; }
+.grid-deco-dot:nth-child(3) { animation: pulse-deco-dot 1.5s infinite ease-in-out alternate 1s; }
+
+/* ------- Pixel input focus ------- */
 .pixel-input {
   width: 100%;
   background: rgba(255, 255, 255, 0.02);
@@ -301,4 +215,16 @@ h1, h2, h3 {
   border-color: var(--clr-accent);
   background: rgba(0, 242, 254, 0.03);
   box-shadow: 0 0 10px rgba(0, 242, 254, 0.1);
+}
+
+.text-area-brief {
+  resize: vertical;
+  min-height: 100px;
+}
+
+/* ------- sr-only ------- */
+.sr-only {
+  position: absolute; width: 1px; height: 1px;
+  padding: 0; margin: -1px; overflow: hidden;
+  clip: rect(0,0,0,0); border: 0;
 }
