@@ -1,97 +1,184 @@
 import React from 'react';
-import { ArrowUpRight } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { ArrowUpRight, Mail, Instagram, Linkedin, Twitter } from 'lucide-react';
+
+const socials = [
+  { label: 'Instagram', icon: Instagram, href: '#' },
+  { label: 'LinkedIn',  icon: Linkedin,  href: '#' },
+  { label: 'Twitter',   icon: Twitter,   href: '#' },
+];
 
 const Footer = () => {
   return (
-    <footer className="py-32 pb-12 border-t border-[var(--clr-border)] bg-[var(--bg-surface)]">
-      <div className="max-w-[1160px] mx-auto px-10">
+    <footer
+      style={{
+        background: 'var(--bg-primary)',
+        borderTop: '1px solid var(--border)',
+        paddingTop: 'var(--space-xl)',
+        paddingBottom: 'var(--space-md)',
+      }}
+    >
+      <div className="container-grid">
 
-        {/* CTA Top */}
-        <div className="flex justify-between items-end mb-32 flex-wrap gap-12 max-sm:flex-col max-sm:items-start max-sm:mb-20">
-          <motion.h2
-            className="text-[clamp(1.8rem,4vw,3rem)] uppercase leading-[1.1]"
-            style={{ fontFamily: 'var(--font-display)' }}
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            Punya Ide Brilian?
-            <br />
-            Mari <span className="text-tech">Wujudkan</span>
-          </motion.h2>
+        {/* CTA */}
+        <div
+          className="col-full mb-16 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-8"
+          data-reveal
+        >
+          <div>
+            <p className="label mb-3">Siap Berkolaborasi?</p>
+            <h2
+              style={{
+                fontFamily: 'var(--font-display)',
+                fontWeight: 800,
+                fontSize: 'clamp(1.8rem, 4vw, 3.5rem)',
+                lineHeight: 1.05,
+                letterSpacing: '-0.03em',
+                color: 'var(--text-primary)',
+              }}
+            >
+              Punya Ide Brilian?
+              <br />
+              <span
+                style={{
+                  fontFamily: 'var(--font-serif)',
+                  fontWeight: 300,
+                  fontStyle: 'italic',
+                  color: 'var(--accent)',
+                  fontSize: '0.92em',
+                }}
+              >
+                Mari wujudkan bersama.
+              </span>
+            </h2>
+          </div>
 
-          <motion.a
+          <a
             href="#planner"
-            className="pixel-corners btn-overlay relative inline-flex items-center gap-2 bg-[var(--clr-accent)] text-[var(--bg-deep)] px-10 py-5 text-[0.85rem] font-bold tracking-[0.08em] uppercase rounded-[4px] no-underline overflow-hidden border border-[var(--clr-accent)] transition-all duration-300 hover:bg-[var(--bg-surface)] hover:text-[var(--clr-accent)] hover:shadow-[0_0_20px_var(--clr-accent-glow)]"
-            style={{ fontFamily: 'var(--font-mono)' }}
-            initial={{ opacity: 0, scale: 0.8 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+            className="btn--primary"
+            style={{ whiteSpace: 'nowrap', alignSelf: 'flex-end' }}
           >
-            Mulai Proyek <ArrowUpRight size={18} />
-          </motion.a>
+            Mulai Proyek <ArrowUpRight size={16} />
+          </a>
         </div>
 
-        {/* Bottom */}
-        <div className="flex justify-between items-center pb-12 border-b border-[var(--clr-border)] mb-8 flex-wrap gap-12 max-sm:flex-col max-sm:items-start">
+        {/* Divider */}
+        <div
+          className="col-full"
+          style={{ height: '1px', background: 'var(--border)', marginBottom: '3rem' }}
+        />
+
+        {/* Footer bottom */}
+        <div
+          className="col-full grid grid-cols-1 md:grid-cols-[1fr_auto] gap-10 items-start"
+          data-reveal
+        >
           {/* Brand */}
           <div>
-            <div className="inline-flex items-center mb-3">
+            <a href="#" className="flex items-center gap-2.5 mb-3">
               <img
                 src="/images/logo.png"
                 alt="Pixelink Logo"
-                className="h-[38px] w-auto mr-3 object-contain"
-                style={{ filter: 'drop-shadow(0 0 10px rgba(0,242,254,0.35))' }}
+                style={{ height: '32px', width: 'auto' }}
               />
               <span
-                className="font-black text-[1.6rem] tracking-[0.05em] text-[var(--clr-text)] leading-none"
-                style={{ fontFamily: 'var(--font-display)' }}
+                style={{
+                  fontFamily: 'var(--font-display)',
+                  fontWeight: 800,
+                  fontSize: '1rem',
+                  letterSpacing: '-0.01em',
+                  color: 'var(--text-primary)',
+                }}
               >
-                PIXEL<span className="brand-ink">INK</span>
+                PIXELINK
+                <span style={{ color: 'var(--accent)' }}>.IO</span>
               </span>
-            </div>
-            <p className="text-[var(--clr-text-muted)] text-[0.9rem]">Studio Kreatif Digital. Berbasis di Semarang, Indonesia.</p>
+            </a>
+            <p
+              style={{
+                fontFamily: 'var(--font-body)',
+                fontSize: '0.78rem',
+                color: 'var(--text-muted)',
+                lineHeight: 1.6,
+                maxWidth: '26ch',
+              }}
+            >
+              Studio kreatif digital. Berbasis di Semarang, Indonesia.
+            </p>
           </div>
 
           {/* Links */}
-          <div className="flex gap-8 flex-wrap max-sm:flex-col max-sm:gap-4">
-            {['Instagram', 'LinkedIn', 'Twitter'].map(social => (
-              <motion.a
-                key={social}
-                href="#"
-                className="text-[var(--clr-text)] no-underline uppercase text-[0.75rem] tracking-[0.1em] transition-colors duration-300 hover:text-[var(--clr-accent)]"
-                style={{ fontFamily: 'var(--font-mono)' }}
-                whileHover={{ y: -3, color: 'var(--clr-accent)' }}
-                transition={{ type: 'spring', stiffness: 300 }}
+          <div className="flex flex-col gap-4">
+            <p className="label">Temui Kami</p>
+            <div className="flex gap-4">
+              {socials.map(({ label, icon: Icon, href }) => (
+                <a
+                  key={label}
+                  href={href}
+                  title={label}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    width: '36px',
+                    height: '36px',
+                    borderRadius: '8px',
+                    border: '1px solid var(--border)',
+                    color: 'var(--text-muted)',
+                    transition: 'border-color 0.25s, color 0.25s',
+                  }}
+                  onMouseEnter={e => {
+                    e.currentTarget.style.borderColor = 'var(--accent)';
+                    e.currentTarget.style.color = 'var(--accent)';
+                  }}
+                  onMouseLeave={e => {
+                    e.currentTarget.style.borderColor = 'var(--border)';
+                    e.currentTarget.style.color = 'var(--text-muted)';
+                  }}
+                >
+                  <Icon size={15} />
+                </a>
+              ))}
+              <a
+                href="mailto:hello@pixelink.co"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: '36px',
+                  height: '36px',
+                  borderRadius: '8px',
+                  border: '1px solid var(--border)',
+                  color: 'var(--text-muted)',
+                  transition: 'border-color 0.25s, color 0.25s',
+                }}
+                title="Email"
+                onMouseEnter={e => {
+                  e.currentTarget.style.borderColor = 'var(--accent)';
+                  e.currentTarget.style.color = 'var(--accent)';
+                }}
+                onMouseLeave={e => {
+                  e.currentTarget.style.borderColor = 'var(--border)';
+                  e.currentTarget.style.color = 'var(--text-muted)';
+                }}
               >
-                {social}
-              </motion.a>
-            ))}
-            <motion.a
-              href="mailto:hello@pixelink.co"
-              className="text-[var(--clr-text)] no-underline uppercase text-[0.75rem] tracking-[0.1em] transition-colors duration-300 hover:text-[var(--clr-accent)]"
-              style={{ fontFamily: 'var(--font-mono)' }}
-              whileHover={{ y: -3, color: 'var(--clr-accent)' }}
-              transition={{ type: 'spring', stiffness: 300 }}
-            >
-              hello@pixelink.co
-            </motion.a>
+                <Mail size={15} />
+              </a>
+            </div>
           </div>
         </div>
 
         {/* Copyright */}
-        <div className="text-center">
-          <span
-            className="text-[0.72rem] tracking-[0.2em] uppercase text-[var(--clr-text-muted)]"
-            style={{ fontFamily: 'var(--font-mono)' }}
+        <div className="col-full mt-12" data-reveal>
+          <p
+            style={{
+              fontFamily: 'var(--font-mono)',
+              fontSize: '0.62rem',
+              letterSpacing: '0.1em',
+              color: 'var(--text-muted)',
+            }}
           >
-            © {new Date().getFullYear()} PIXELINK — Hak Cipta Dilindungi.
-          </span>
+            © {new Date().getFullYear()} PIXELINK — Hak Cipta Dilindungi
+          </p>
         </div>
 
       </div>

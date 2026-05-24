@@ -1,121 +1,144 @@
-import React, { useState, useEffect } from 'react';
-import { Menu, X } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React from 'react';
 
 const Navbar = () => {
-  const [scrolled, setScrolled] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [scrolled, setScrolled] = React.useState(false);
 
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+  React.useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  const navVariants = {
-    hidden: { y: -100, opacity: 0 },
-    visible: { y: 0, opacity: 1, transition: { type: 'spring', stiffness: 100, damping: 20 } }
-  };
+  const links = [
+    ['Layanan', '#services'],
+    ['Portofolio', '#works'],
+    ['Kalkulator', '#planner'],
+  ];
 
   return (
-    <motion.nav
-      className={`fixed top-0 left-0 w-full z-[999] transition-all duration-400 border-b border-transparent
-        ${scrolled ? 'py-4 bg-[rgba(3,7,18,0.85)] backdrop-blur-xl border-b border-[rgba(0,242,254,0.12)] shadow-[0_10px_30px_rgba(0,0,0,0.5)]' : 'py-8'}`}
-      variants={navVariants}
-      initial="hidden"
-      animate="visible"
+    <nav
+      className="fixed top-0 left-0 right-0 z-[100] transition-all duration-500"
+      style={{
+        padding: scrolled ? '0.8rem clamp(1.25rem,4vw,4rem)' : '1.2rem clamp(1.25rem,4vw,4rem)',
+        background: scrolled ? 'rgba(8,8,8,0.85)' : 'transparent',
+        backdropFilter: scrolled ? 'blur(20px)' : 'none',
+        borderBottom: scrolled ? '1px solid var(--border)' : '1px solid transparent',
+      }}
     >
-      <div className="max-w-[1160px] mx-auto px-10 flex justify-between items-center">
+      <div className="flex items-center justify-between max-w-[1400px] mx-auto">
+
         {/* Brand */}
-        <motion.a
-          href="#"
-          className="no-underline flex items-center"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          <div className="flex items-center">
-            <img
-              src="/images/logo.png"
-              alt="Pixelink Logo"
-              className="h-8 w-auto mr-3 object-contain transition-transform duration-300 drop-shadow-[0_0_8px_rgba(0,242,254,0.3)]"
-              style={{ filter: 'drop-shadow(0 0 8px rgba(0,242,254,0.3))' }}
-            />
-            <span
-              className="font-black text-xl tracking-[0.05em] text-[var(--clr-text)] leading-none"
-              style={{ fontFamily: 'var(--font-display)' }}
-            >
-              PIXEL<span className="brand-ink">INK.IO</span>
-            </span>
-          </div>
-        </motion.a>
+        <a href="#" className="flex items-center gap-2.5">
+          <img src="/images/logo.png" alt="Logo" className="h-8 w-auto" />
+          <span
+            style={{
+              fontFamily: 'var(--font-display)',
+              fontWeight: 800,
+              fontSize: '1.1rem',
+              letterSpacing: '-0.02em',
+              color: 'var(--text-primary)',
+            }}
+          >
+            PIXELINK
+            <span style={{ color: 'var(--accent)' }}>.IO</span>
+          </span>
+        </a>
 
         {/* Desktop Nav */}
-        <div className="hidden md:flex items-center gap-10">
-          {[['Beranda', 'home'], ['Layanan', 'services'], ['Portofolio', 'works']].map(([label, id]) => (
-            <motion.a
-              key={id}
-              href={`#${id}`}
-              className="no-underline text-[var(--clr-text-muted)] tracking-[0.15em] uppercase text-[0.7rem] transition-colors duration-300 hover:text-[var(--clr-text)]"
-              style={{ fontFamily: 'var(--font-mono)' }}
-              whileHover={{ y: -2, color: 'var(--clr-accent)' }}
-              transition={{ type: 'spring', stiffness: 300 }}
+        <div className="hidden md:flex items-center gap-8">
+          {links.map(([label, href]) => (
+            <a
+              key={label}
+              href={href}
+              style={{
+                fontFamily: 'var(--font-body)',
+                fontSize: '0.82rem',
+                fontWeight: 500,
+                color: 'var(--text-secondary)',
+                letterSpacing: '0.01em',
+                transition: 'color 0.25s',
+              }}
+              onMouseEnter={e => (e.target.style.color = 'var(--text-primary)')}
+              onMouseLeave={e => (e.target.style.color = 'var(--text-secondary)')}
             >
               {label}
-            </motion.a>
+            </a>
           ))}
-          <motion.a
+          <a
             href="#planner"
-            className="pixel-corners btn-overlay relative inline-flex items-center gap-2 bg-[var(--clr-accent)] text-[var(--bg-deep)] px-6 py-3 text-[0.78rem] font-bold tracking-[0.08em] uppercase rounded-[4px] no-underline overflow-hidden border border-[var(--clr-accent)] transition-all duration-300 hover:bg-[var(--bg-surface)] hover:text-[var(--clr-accent)] hover:shadow-[0_0_20px_var(--clr-accent-glow)]"
-            style={{ fontFamily: 'var(--font-mono)' }}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+            className="btn--primary"
+            style={{ padding: '0.55em 1.4em', fontSize: '0.78rem' }}
           >
             Mulai Proyek
-          </motion.a>
+          </a>
         </div>
 
         {/* Mobile Toggle */}
         <button
-          className="md:hidden bg-transparent border-none text-[var(--clr-text)]"
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          className="md:hidden flex flex-col gap-1.5"
+          onClick={() => setMobileOpen(!mobileOpen)}
+          style={{ color: 'var(--text-primary)' }}
         >
-          {mobileMenuOpen ? <X size={24} color="var(--clr-text)" /> : <Menu size={24} color="var(--clr-text)" />}
+          <span
+            className="block h-[1.5px] w-6 transition-transform duration-300"
+            style={{
+              background: 'var(--text-primary)',
+              transform: mobileOpen ? 'translateY(4px) rotate(45deg)' : 'none',
+            }}
+          />
+          <span
+            className="block h-[1.5px] w-4 transition-all duration-300"
+            style={{
+              background: 'var(--text-primary)',
+              opacity: mobileOpen ? 0 : 1,
+            }}
+          />
+          <span
+            className="block h-[1.5px] w-6 transition-transform duration-300"
+            style={{
+              background: 'var(--text-primary)',
+              transform: mobileOpen ? 'translateY(-4px) rotate(-45deg)' : 'none',
+            }}
+          />
         </button>
       </div>
 
       {/* Mobile Menu */}
-      <AnimatePresence>
-        {mobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.3 }}
-            className="md:hidden absolute top-full left-0 w-full bg-[var(--bg-deep)] border-b border-[var(--clr-border)] flex flex-col items-start gap-6 px-10 py-8"
-          >
-            {[['Beranda', 'home'], ['Layanan', 'services'], ['Portofolio', 'works']].map(([label, id]) => (
-              <a
-                key={id}
-                href={`#${id}`}
-                onClick={() => setMobileMenuOpen(false)}
-                className="no-underline text-[var(--clr-text-muted)] tracking-[0.15em] uppercase text-[0.7rem]"
-                style={{ fontFamily: 'var(--font-mono)' }}
-              >
-                {label}
-              </a>
-            ))}
+      {mobileOpen && (
+        <div
+          className="md:hidden absolute top-full left-0 w-full flex flex-col p-6 gap-5"
+          style={{
+            background: 'rgba(8,8,8,0.96)',
+            backdropFilter: 'blur(20px)',
+            borderTop: '1px solid var(--border)',
+          }}
+        >
+          {links.map(([label, href]) => (
             <a
-              href="#planner"
-              onClick={() => setMobileMenuOpen(false)}
-              className="pixel-corners inline-flex items-center gap-2 bg-[var(--clr-accent)] text-[var(--bg-deep)] px-6 py-3 text-[0.78rem] font-bold tracking-[0.08em] uppercase rounded-[4px] no-underline"
-              style={{ fontFamily: 'var(--font-mono)' }}
+              key={label}
+              href={href}
+              onClick={() => setMobileOpen(false)}
+              style={{
+                fontFamily: 'var(--font-body)',
+                fontSize: '0.9rem',
+                fontWeight: 500,
+                color: 'var(--text-secondary)',
+              }}
             >
-              Mulai Proyek
+              {label}
             </a>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.nav>
+          ))}
+          <a
+            href="#planner"
+            onClick={() => setMobileOpen(false)}
+            className="btn--primary w-fit"
+          >
+            Mulai Proyek
+          </a>
+        </div>
+      )}
+    </nav>
   );
 };
 

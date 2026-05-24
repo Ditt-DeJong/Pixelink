@@ -1,4 +1,9 @@
 import React, { useEffect, useRef } from 'react';
+import Lenis from '@studio-freight/lenis';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { initReveal, initParallax } from './utils/animations';
+
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import Services from './components/Services';
@@ -11,9 +16,21 @@ function App() {
   const cursorRef = useRef(null);
 
   useEffect(() => {
-    const cursor = cursorRef.current;
-    if (!cursor) return;
+    // 1. Lenis Smooth Scroll Setup
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+    });
 
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add((time) => {
+      lenis.raf(time * 1000);
+    });
+    gsap.ticker.lagSmoothing(0);
+
+    // 2. Custom Cursor
+    const cursor = cursorRef.current;
     let rafId;
     let targetX = 0;
     let targetY = 0;
@@ -23,38 +40,39 @@ function App() {
       targetY = e.clientY;
     };
 
-    const render = () => {
-      cursor.style.transform = `translate(${targetX - 16}px, ${targetY - 16}px)`;
-      rafId = requestAnimationFrame(render);
+    const renderCursor = () => {
+      if (cursor) {
+        cursor.style.transform = `translate(${targetX - 16}px, ${targetY - 16}px)`;
+      }
+      rafId = requestAnimationFrame(renderCursor);
     };
 
     window.addEventListener('mousemove', onMouseMove);
-    rafId = requestAnimationFrame(render);
+    rafId = requestAnimationFrame(renderCursor);
+
+    // 3. Init Animations
+    setTimeout(() => {
+      initReveal('MAXIMUM');
+      initParallax(0.25);
+    }, 100);
 
     return () => {
       window.removeEventListener('mousemove', onMouseMove);
       cancelAnimationFrame(rafId);
+      lenis.destroy();
+      gsap.ticker.remove(lenis.raf);
     };
   }, []);
 
   return (
     <>
-      <div ref={cursorRef} className="custom-cursor fixed top-0 left-0 w-8 h-8 border border-[var(--clr-accent)] rounded-full pointer-events-none z-[9999] bg-[rgba(0,229,255,0.1)] backdrop-blur-sm mix-blend-difference will-change-transform" />
-      <div className="ambient-glow fixed inset-0 -z-10 pointer-events-none" style={{
-        background: 'radial-gradient(ellipse 60% 50% at 20% 20%, rgba(0,242,254,0.05) 0%, transparent 60%), radial-gradient(ellipse 50% 40% at 80% 80%, rgba(79,172,254,0.05) 0%, transparent 60%)',
-        backgroundImage: 'radial-gradient(rgba(0,242,254,0.03) 1.5px, transparent 1.5px), radial-gradient(ellipse 60% 50% at 20% 20%, rgba(0,242,254,0.05) 0%, transparent 60%), radial-gradient(ellipse 50% 40% at 80% 80%, rgba(79,172,254,0.05) 0%, transparent 60%)',
-        backgroundSize: '24px 24px, 100% 100%, 100% 100%'
-      }} />
+      <div ref={cursorRef} className="custom-cursor" />
       <Navbar />
       <main>
         <Hero />
-        <div className="w-full h-px bg-[var(--clr-border)]" />
         <Services />
-        <div className="w-full h-px bg-[var(--clr-border)]" />
         <Works />
-        <div className="w-full h-px bg-[var(--clr-border)]" />
         <Contact />
-        <div className="w-full h-px bg-[var(--clr-border)]" />
       </main>
       <Footer />
     </>

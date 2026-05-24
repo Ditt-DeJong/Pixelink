@@ -1,383 +1,416 @@
 import React, { useState, useEffect } from 'react';
-import { Calculator, Clock, Send, MessageSquare, DollarSign } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { Calculator, Clock, MessageSquare, DollarSign, ChevronRight } from 'lucide-react';
 
 const basePackages = [
-  { id: 'landing', label: 'Landing Page Bisnis', basePrice: 800000, days: 4, desc: 'Ideal untuk pemasaran & personal branding' },
-  { id: 'comprof', label: 'Company Profile', basePrice: 1500000, days: 6, desc: 'Tingkatkan kredibilitas korporat & organisasi Anda' },
-  { id: 'undangan', label: 'Undangan Digital', basePrice: 300000, days: 3, desc: 'Animasi premium & formulir RSVP via WhatsApp' },
-  { id: 'portfolio', label: 'Website Portofolio', basePrice: 600000, days: 4, desc: 'Galeri eksklusif untuk kreator & pekerja seni' }
+  { id: 'landing',   label: 'Landing Page Bisnis', basePrice: 800000,  days: 4, desc: 'Pemasaran & personal branding' },
+  { id: 'comprof',   label: 'Company Profile',      basePrice: 1500000, days: 6, desc: 'Website korporat & organisasi' },
+  { id: 'undangan',  label: 'Undangan Digital',      basePrice: 300000,  days: 3, desc: 'Animasi premium & RSVP WhatsApp' },
+  { id: 'portfolio', label: 'Website Portofolio',    basePrice: 600000,  days: 4, desc: 'Galeri eksklusif untuk kreator' }
 ];
 
 const addOnFeatures = [
-  { id: 'seo', label: 'SEO Lanjutan & Analytics Penuh', price: 150000, days: 1, desc: 'Optimasi Google & laporan performa bulanan' },
-  { id: 'multilang', label: 'Dukungan Multi-Bahasa', price: 200000, days: 2, desc: 'Bahasa Inggris + Indonesia' },
-  { id: 'whatsapp', label: 'Integrasi Sistem WhatsApp', price: 100000, days: 1, desc: 'Notifikasi otomatis & pemesanan langsung via chat' },
-  { id: 'anim', label: 'Animasi Mikro Premium', price: 150000, days: 1, desc: 'Framer Motion & transisi visual eksklusif' },
-  { id: 'branding', label: 'Paket Logo & Identitas Merek', price: 300000, days: 2, desc: 'Logo, palet warna, & panduan tipografi' }
+  { id: 'seo',       label: 'SEO & Analytics',    price: 150000, days: 1, desc: 'Optimasi Google + laporan bulanan' },
+  { id: 'multilang', label: 'Multi-Bahasa',        price: 200000, days: 2, desc: 'Dukungan EN + ID' },
+  { id: 'whatsapp',  label: 'Integrasi WhatsApp',  price: 100000, days: 1, desc: 'Notifikasi & booking via chat' },
+  { id: 'anim',      label: 'Animasi Premium',     price: 150000, days: 1, desc: 'GSAP + transisi eksklusif' },
+  { id: 'branding',  label: 'Identitas Visual',    price: 300000, days: 2, desc: 'Logo, warna, & panduan merek' }
 ];
 
+const fmt = val =>
+  new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(val);
+
 const Contact = () => {
-  const [selectedPackage, setSelectedPackage] = useState('landing');
-  const [selectedAddons, setSelectedAddons] = useState([]);
-  const [clientName, setClientName] = useState('');
-  const [clientEmail, setClientEmail] = useState('');
-  const [clientBrief, setClientBrief] = useState('');
+  const [selectedPkg, setSelectedPkg] = useState('landing');
+  const [addons, setAddons] = useState([]);
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [brief, setBrief] = useState('');
   const [totalCost, setTotalCost] = useState(0);
   const [totalDays, setTotalDays] = useState(0);
 
   useEffect(() => {
-    const pkg = basePackages.find(p => p.id === selectedPackage);
+    const pkg = basePackages.find(p => p.id === selectedPkg);
     if (!pkg) return;
-    let cost = pkg.basePrice;
-    let days = pkg.days;
-    selectedAddons.forEach(addonId => {
-      const addon = addOnFeatures.find(a => a.id === addonId);
-      if (addon) { cost += addon.price; days += addon.days; }
+    let cost = pkg.basePrice, days = pkg.days;
+    addons.forEach(id => {
+      const a = addOnFeatures.find(x => x.id === id);
+      if (a) { cost += a.price; days += a.days; }
     });
     setTotalCost(cost);
     setTotalDays(days);
-  }, [selectedPackage, selectedAddons]);
+  }, [selectedPkg, addons]);
 
-  const handleAddonToggle = (addonId) => {
-    setSelectedAddons(prev =>
-      prev.includes(addonId) ? prev.filter(id => id !== addonId) : [...prev, addonId]
-    );
+  const toggleAddon = id =>
+    setAddons(prev => prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]);
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    const pkg = basePackages.find(p => p.id === selectedPkg);
+    const addonsText = addons.length
+      ? addons.map(id => `- ${addOnFeatures.find(a => a.id === id)?.label}`).join('%0A')
+      : '- Tidak ada';
+    const msg =
+      `Halo Pixelink!%0A%0ABerikut detail proyek saya:%0A%0A` +
+      `*Nama:* ${name || 'Klien Baru'}%0A*Email:* ${email || '-'}%0A%0A` +
+      `*Paket:* ${pkg?.label}%0A*Add-ons:*%0A${addonsText}%0A%0A` +
+      `*Estimasi Biaya:* ${fmt(totalCost)}%0A*Estimasi Waktu:* ± ${totalDays} Hari%0A%0A` +
+      `*Brief:* "${brief || '-'}"`;
+    window.open(`https://wa.me/6281234567890?text=${msg}`, '_blank');
   };
 
-  const formatCurrency = (val) =>
-    new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(val);
-
-  const handleSendWhatsApp = (e) => {
-    e.preventDefault();
-    const selectedPkgObj = basePackages.find(p => p.id === selectedPackage);
-    const selectedAddonsList = selectedAddons.map(id => addOnFeatures.find(a => a.id === id)?.label).filter(Boolean);
-    const addonsText = selectedAddonsList.length > 0 ? selectedAddonsList.map(a => `- ${a}`).join('%0A') : '- Tidak ada';
-    const message =
-      `Halo Pixelink!%0A%0ASaya tertarik untuk mendiskusikan proyek web baru. Berikut detail rencana proyek saya:%0A%0A` +
-      `*Nama:* ${clientName || 'Klien Baru'}%0A` +
-      `*Email:* ${clientEmail || '-'}%0A%0A` +
-      `*Paket Utama:* ${selectedPkgObj?.label}%0A` +
-      `*Fitur Tambahan:*%0A${addonsText}%0A%0A` +
-      `*Estimasi Biaya:* ${formatCurrency(totalCost)}%0A` +
-      `*Estimasi Waktu:* ± ${totalDays} Hari%0A%0A` +
-      `*Deskripsi Singkat:*%0A"${clientBrief || 'Ingin mendiskusikan lebih lanjut di chat'}"%0A%0A` +
-      `Mohon diinfokan ketersediaan waktu untuk meeting singkat. Terima kasih!`;
-    const waNumber = '6281234567890';
-    window.open(`https://wa.me/${waNumber}?text=${message}`, '_blank');
+  const inputStyle = {
+    width: '100%',
+    background: 'var(--bg-primary)',
+    border: '1px solid var(--border)',
+    borderRadius: '6px',
+    padding: '0.7em 1em',
+    fontFamily: 'var(--font-body)',
+    fontSize: '0.85rem',
+    color: 'var(--text-primary)',
+    outline: 'none',
+    transition: 'border-color 0.25s',
   };
 
   return (
-    <section id="planner" className="py-32 relative overflow-hidden">
-      <div className="max-w-[1160px] mx-auto px-10">
+    <section id="planner" className="section" style={{ background: 'var(--bg-secondary)' }}>
+      <div className="container-grid">
 
-        {/* Header */}
-        <div className="flex flex-col items-center gap-4 mb-20 text-center">
-          <span
-            className="text-[0.72rem] tracking-[0.2em] uppercase text-[var(--clr-accent)]"
-            style={{ fontFamily: 'var(--font-mono)' }}
-          >
-            [ Perencana Proyek ]
-          </span>
-          <h2
-            className="text-[clamp(2rem,4vw,3.25rem)] uppercase"
-            style={{ fontFamily: 'var(--font-display)' }}
-          >
-            Rancang Rencana <span className="text-tech">Proyek Anda</span>
+        {/* Editorial Header */}
+        <header className="col-full section-header" data-reveal>
+          <span className="label">03</span>
+          <hr className="section-rule" />
+          <span className="label">Perencana Proyek</span>
+        </header>
+
+        {/* Title */}
+        <div className="col-left-7 mb-12">
+          <h2 className="headline" data-reveal>
+            Rancang proyek
+            <br />
+            <span
+              style={{
+                fontFamily: 'var(--font-serif)',
+                fontWeight: 300,
+                fontStyle: 'italic',
+                color: 'var(--accent)',
+              }}
+            >
+              impian Anda.
+            </span>
           </h2>
-          <p className="text-[var(--clr-text-muted)] max-w-[600px] text-[1.05rem] mt-2">
-            Pilih kebutuhan digital Anda secara transparan. Kalkulator kami akan menyusun estimasi biaya dan waktu pengerjaan secara langsung dan akurat.
+          <p className="body mt-4" data-reveal>
+            Pilih paket dan fitur yang Anda butuhkan — sistem kami akan menghitung estimasi harga dan waktu secara real-time.
           </p>
         </div>
 
-        {/* Planner Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-[1.25fr_0.75fr] gap-14 items-start">
+        {/* Main Grid */}
+        <div
+          className="col-full grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-8 items-start"
+          data-reveal
+        >
+          {/* Left: Form */}
+          <div
+            className="card p-8"
+          >
+            <form onSubmit={handleSubmit} className="flex flex-col gap-8">
 
-          {/* Left — Form */}
-          <div className="pixel-corners relative bg-[var(--bg-card)] border border-[var(--clr-border)] rounded-[4px] p-8 overflow-hidden">
-            <div className="halftone-overlay" />
-
-            <form onSubmit={handleSendWhatsApp} className="flex flex-col">
-
-              {/* Step 1 */}
-              <div className="flex flex-col gap-6 border-b border-[var(--clr-border)] pb-8 mb-8">
-                <h3
-                  className="text-[0.85rem] text-[var(--clr-text-muted)] tracking-[0.1em] uppercase"
-                  style={{ fontFamily: 'var(--font-mono)' }}
-                >
-                  1. Informasi Klien
-                </h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                  <div className="flex flex-col gap-2">
-                    <label
-                      className="text-[0.72rem] tracking-[0.2em] uppercase text-[var(--clr-text-muted)]"
-                      style={{ fontFamily: 'var(--font-mono)' }}
-                    >
-                      Nama Lengkap
-                    </label>
+              {/* Step 1: Info */}
+              <div>
+                <p className="label mb-4">01 — Informasi Klien</p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="label block mb-2">Nama Lengkap</label>
                     <input
                       type="text"
-                      className="pixel-input"
-                      placeholder="Masukkan nama Anda"
-                      value={clientName}
-                      onChange={e => setClientName(e.target.value)}
+                      placeholder="Budi Santoso"
+                      value={name}
+                      onChange={e => setName(e.target.value)}
                       required
+                      style={inputStyle}
+                      onFocus={e => (e.target.style.borderColor = 'var(--accent)')}
+                      onBlur={e => (e.target.style.borderColor = 'var(--border)')}
                     />
                   </div>
-                  <div className="flex flex-col gap-2">
-                    <label
-                      className="text-[0.72rem] tracking-[0.2em] uppercase text-[var(--clr-text-muted)]"
-                      style={{ fontFamily: 'var(--font-mono)' }}
-                    >
-                      Alamat Email
-                    </label>
+                  <div>
+                    <label className="label block mb-2">Alamat Email</label>
                     <input
                       type="email"
-                      className="pixel-input"
-                      placeholder="nama@email.com"
-                      value={clientEmail}
-                      onChange={e => setClientEmail(e.target.value)}
+                      placeholder="budi@email.com"
+                      value={email}
+                      onChange={e => setEmail(e.target.value)}
                       required
+                      style={inputStyle}
+                      onFocus={e => (e.target.style.borderColor = 'var(--accent)')}
+                      onBlur={e => (e.target.style.borderColor = 'var(--border)')}
                     />
                   </div>
                 </div>
               </div>
 
-              {/* Step 2 */}
-              <div className="flex flex-col gap-6 border-b border-[var(--clr-border)] pb-8 mb-8">
-                <h3
-                  className="text-[0.85rem] text-[var(--clr-text-muted)] tracking-[0.1em] uppercase"
-                  style={{ fontFamily: 'var(--font-mono)' }}
-                >
-                  2. Pilih Paket Website
-                </h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {basePackages.map(pkg => (
-                    <label
-                      key={pkg.id}
-                      className={`relative flex flex-col gap-2 p-5 rounded-md border transition-all duration-300
-                        ${selectedPackage === pkg.id
-                          ? 'border-[var(--clr-accent)] bg-[rgba(0,242,254,0.04)] shadow-[0_0_15px_rgba(0,242,254,0.1)]'
-                          : 'border-[var(--clr-border)] bg-white/[0.015] hover:border-[rgba(0,242,254,0.3)] hover:bg-white/[0.03]'
-                        }`}
-                    >
-                      <input
-                        type="radio"
-                        name="projectPackage"
-                        value={pkg.id}
-                        checked={selectedPackage === pkg.id}
-                        onChange={() => setSelectedPackage(pkg.id)}
-                        className="sr-only"
-                      />
-                      <div className="flex justify-between items-center gap-2">
-                        <span
-                          className="text-[0.85rem] font-bold text-[var(--clr-text)] tracking-[-0.02em]"
-                          style={{ fontFamily: 'var(--font-display)' }}
-                        >
-                          {pkg.label}
-                        </span>
-                        <span
-                          className="text-[0.8rem] text-[var(--clr-accent)] font-bold shrink-0"
-                          style={{ fontFamily: 'var(--font-mono)' }}
-                        >
-                          {formatCurrency(pkg.basePrice)}
-                        </span>
-                      </div>
-                      <p className="text-[0.78rem] text-[var(--clr-text-muted)] leading-snug">{pkg.desc}</p>
-                    </label>
-                  ))}
-                </div>
-              </div>
-
-              {/* Step 3 */}
-              <div className="flex flex-col gap-6 border-b border-[var(--clr-border)] pb-8 mb-8">
-                <h3
-                  className="text-[0.85rem] text-[var(--clr-text-muted)] tracking-[0.1em] uppercase"
-                  style={{ fontFamily: 'var(--font-mono)' }}
-                >
-                  3. Fitur Tambahan (Opsional)
-                </h3>
-                <div className="flex flex-col gap-3">
-                  {addOnFeatures.map(addon => (
-                    <label
-                      key={addon.id}
-                      className={`flex justify-between items-center gap-6 p-4 rounded-md border transition-all duration-300
-                        ${selectedAddons.includes(addon.id)
-                          ? 'border-[var(--clr-accent)] bg-[rgba(0,242,254,0.04)] shadow-[0_0_15px_rgba(0,242,254,0.08)]'
-                          : 'border-[var(--clr-border)] bg-white/[0.015] hover:border-[rgba(0,242,254,0.3)] hover:bg-white/[0.03]'
-                        } sm:flex-row flex-col sm:items-center items-start`}
-                    >
-                      <input
-                        type="checkbox"
-                        checked={selectedAddons.includes(addon.id)}
-                        onChange={() => handleAddonToggle(addon.id)}
-                        className="sr-only"
-                      />
-                      <div className="flex flex-col gap-1">
-                        <span className="text-[0.9rem] font-semibold text-[var(--clr-text)]">{addon.label}</span>
-                        <p className="text-[0.75rem] text-[var(--clr-text-muted)]">{addon.desc}</p>
-                      </div>
-                      <div
-                        className="flex flex-col items-end shrink-0 gap-0.5 sm:border-t-0 border-t border-[var(--clr-border)] sm:pt-0 pt-3 sm:w-auto w-full"
-                        style={{ fontFamily: 'var(--font-mono)' }}
+              {/* Step 2: Package */}
+              <div>
+                <p className="label mb-4">02 — Pilih Paket</p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {basePackages.map(pkg => {
+                    const active = selectedPkg === pkg.id;
+                    return (
+                      <label
+                        key={pkg.id}
+                        style={{
+                          display: 'flex',
+                          flexDirection: 'column',
+                          gap: '0.3rem',
+                          padding: '0.9em 1.1em',
+                          borderRadius: '8px',
+                          border: `1px solid ${active ? 'var(--accent)' : 'var(--border)'}`,
+                          background: active ? 'var(--accent-dim)' : 'transparent',
+                          cursor: 'pointer',
+                          transition: 'border-color 0.25s, background 0.25s',
+                        }}
                       >
-                        <span className="text-[0.8rem] text-[var(--clr-accent)] font-bold">+ {formatCurrency(addon.price)}</span>
-                        <span className="text-[0.7rem] text-[var(--clr-text-muted)]">+ {addon.days} Hari</span>
-                      </div>
-                    </label>
-                  ))}
+                        <input
+                          type="radio"
+                          name="pkg"
+                          value={pkg.id}
+                          checked={active}
+                          onChange={() => setSelectedPkg(pkg.id)}
+                          style={{ display: 'none' }}
+                        />
+                        <div className="flex justify-between items-baseline">
+                          <span
+                            style={{
+                              fontFamily: 'var(--font-display)',
+                              fontWeight: 600,
+                              fontSize: '0.88rem',
+                              color: 'var(--text-primary)',
+                            }}
+                          >
+                            {pkg.label}
+                          </span>
+                          <span
+                            style={{
+                              fontFamily: 'var(--font-mono)',
+                              fontSize: '0.7rem',
+                              color: active ? 'var(--accent)' : 'var(--text-muted)',
+                            }}
+                          >
+                            {fmt(pkg.basePrice)}
+                          </span>
+                        </div>
+                        <span
+                          style={{
+                            fontFamily: 'var(--font-body)',
+                            fontSize: '0.73rem',
+                            color: 'var(--text-muted)',
+                          }}
+                        >
+                          {pkg.desc}
+                        </span>
+                      </label>
+                    );
+                  })}
                 </div>
               </div>
 
-              {/* Step 4 */}
-              <div className="flex flex-col gap-6 pb-8 mb-8">
-                <h3
-                  className="text-[0.85rem] text-[var(--clr-text-muted)] tracking-[0.1em] uppercase"
-                  style={{ fontFamily: 'var(--font-mono)' }}
-                >
-                  4. Gambaran Singkat Proyek Anda
-                </h3>
+              {/* Step 3: Add-ons */}
+              <div>
+                <p className="label mb-4">03 — Fitur Tambahan</p>
+                <div className="flex flex-col gap-2">
+                  {addOnFeatures.map(addon => {
+                    const active = addons.includes(addon.id);
+                    return (
+                      <label
+                        key={addon.id}
+                        style={{
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                          alignItems: 'center',
+                          gap: '1rem',
+                          padding: '0.8em 1em',
+                          borderRadius: '8px',
+                          border: `1px solid ${active ? 'var(--accent)' : 'var(--border)'}`,
+                          background: active ? 'var(--accent-dim)' : 'transparent',
+                          cursor: 'pointer',
+                          transition: 'border-color 0.25s, background 0.25s',
+                        }}
+                      >
+                        <input
+                          type="checkbox"
+                          checked={active}
+                          onChange={() => toggleAddon(addon.id)}
+                          style={{ display: 'none' }}
+                        />
+                        <div>
+                          <span
+                            style={{
+                              fontFamily: 'var(--font-display)',
+                              fontWeight: 600,
+                              fontSize: '0.82rem',
+                              color: 'var(--text-primary)',
+                              display: 'block',
+                              marginBottom: '0.15rem',
+                            }}
+                          >
+                            {addon.label}
+                          </span>
+                          <span
+                            style={{
+                              fontFamily: 'var(--font-body)',
+                              fontSize: '0.72rem',
+                              color: 'var(--text-muted)',
+                            }}
+                          >
+                            {addon.desc}
+                          </span>
+                        </div>
+                        <span
+                          style={{
+                            fontFamily: 'var(--font-mono)',
+                            fontSize: '0.7rem',
+                            color: active ? 'var(--accent)' : 'var(--text-muted)',
+                            whiteSpace: 'nowrap',
+                          }}
+                        >
+                          +{fmt(addon.price)}
+                        </span>
+                      </label>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Step 4: Brief */}
+              <div>
+                <p className="label mb-4">04 — Brief Proyek</p>
                 <textarea
-                  className="pixel-input text-area-brief"
-                  rows="3"
-                  placeholder="Contoh: Saya ingin landing page untuk usaha kosmetik dengan tema merah muda, tampilan bersih, dan kesan elegan."
-                  value={clientBrief}
-                  onChange={e => setClientBrief(e.target.value)}
+                  placeholder="Ceritakan tentang visi dan kebutuhan proyek Anda..."
+                  value={brief}
+                  onChange={e => setBrief(e.target.value)}
+                  style={{ ...inputStyle, minHeight: '100px', resize: 'vertical' }}
+                  onFocus={e => (e.target.style.borderColor = 'var(--accent)')}
+                  onBlur={e => (e.target.style.borderColor = 'var(--border)')}
                 />
               </div>
 
-              <motion.button
-                type="submit"
-                className="pixel-corners btn-overlay relative w-full flex justify-center items-center gap-2 bg-[var(--clr-accent)] text-[var(--bg-deep)] px-8 py-4 text-[0.85rem] font-bold tracking-[0.08em] uppercase rounded-[4px] overflow-hidden border border-[var(--clr-accent)] transition-all duration-300 hover:bg-[var(--bg-surface)] hover:text-[var(--clr-accent)] hover:shadow-[0_0_20px_var(--clr-accent-glow)]"
-                style={{ fontFamily: 'var(--font-mono)' }}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-              >
-                <MessageSquare size={16} /> Hubungi Kami di WhatsApp
-              </motion.button>
+              <button type="submit" className="btn--primary" style={{ justifyContent: 'center', padding: '0.85em 2em' }}>
+                <MessageSquare size={15} /> Hubungi via WhatsApp
+              </button>
             </form>
           </div>
 
-          {/* Right — Live Dashboard */}
-          <div className="lg:sticky lg:top-[7.5rem]">
-            <div className="pixel-corners relative bg-[rgba(14,20,32,0.8)] border border-[rgba(0,242,254,0.12)] rounded-[4px] p-10 backdrop-blur-xl overflow-hidden">
-              <div className="halftone-overlay" />
+          {/* Right: Live Summary */}
+          <div
+            className="card p-7 lg:sticky"
+            style={{ top: '6rem' }}
+          >
+            <div className="flex items-center gap-2 mb-6">
+              <Calculator size={16} style={{ color: 'var(--accent)' }} />
+              <span className="label" style={{ color: 'var(--accent)' }}>Estimasi Langsung</span>
+            </div>
 
-              {/* Header */}
-              <div className="flex items-center gap-3 mb-0">
-                <Calculator size={20} className="text-cyan-glow" style={{ color: 'var(--clr-accent)' }} />
-                <span
-                  className="text-[0.72rem] tracking-[0.2em] uppercase text-[var(--clr-text-muted)]"
-                  style={{ fontFamily: 'var(--font-mono)' }}
-                >
-                  Dasbor Estimasi Langsung
-                </span>
-              </div>
+            {/* Package */}
+            <p className="label mb-1">Paket Dipilih</p>
+            <p
+              style={{
+                fontFamily: 'var(--font-display)',
+                fontWeight: 700,
+                fontSize: '1.05rem',
+                color: 'var(--text-primary)',
+                marginBottom: '1.5rem',
+              }}
+            >
+              {basePackages.find(p => p.id === selectedPkg)?.label}
+            </p>
 
-              <div className="w-full h-px my-6" style={{ background: 'linear-gradient(90deg, rgba(0,242,254,0.15) 0%, transparent 100%)' }} />
+            <div style={{ height: '1px', background: 'var(--border)', marginBottom: '1.5rem' }} />
 
-              {/* Package */}
-              <div className="flex flex-col gap-2 mb-0">
-                <span
-                  className="text-[0.75rem] text-[var(--clr-text-muted)] uppercase tracking-[0.05em]"
-                  style={{ fontFamily: 'var(--font-mono)' }}
-                >
-                  Paket Terpilih:
-                </span>
-                <span
-                  className="text-[1.25rem] font-extrabold text-[var(--clr-text)] tracking-[-0.02em]"
-                  style={{ fontFamily: 'var(--font-display)' }}
-                >
-                  {basePackages.find(p => p.id === selectedPackage)?.label}
-                </span>
-              </div>
-
-              <div className="w-full h-px my-6" style={{ background: 'linear-gradient(90deg, rgba(0,242,254,0.15) 0%, transparent 100%)' }} />
-
-              {/* Cost */}
-              <div className="flex items-center gap-5">
-                <div
-                  className="w-12 h-12 rounded-lg flex items-center justify-center shrink-0"
-                  style={{ background: 'var(--clr-gradient)', boxShadow: '0 0 20px rgba(0,242,254,0.35)' }}
-                >
-                  <DollarSign size={24} color="var(--bg-deep)" />
-                </div>
-                <div className="flex flex-col">
-                  <span
-                    className="text-[0.75rem] text-[var(--clr-text-muted)] uppercase tracking-[0.05em] mb-0.5"
-                    style={{ fontFamily: 'var(--font-mono)' }}
-                  >
-                    Estimasi Anggaran
-                  </span>
-                  <span
-                    className="text-[1.5rem] font-black leading-tight text-cyan-glow"
-                    style={{ fontFamily: 'var(--font-display)' }}
-                  >
-                    {formatCurrency(totalCost)}
-                  </span>
-                </div>
-              </div>
-
-              {/* Duration */}
-              <div className="flex items-center gap-5 mt-6">
-                <div
-                  className="w-12 h-12 rounded-lg flex items-center justify-center shrink-0"
-                  style={{ background: 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)', boxShadow: '0 0 20px rgba(59,130,246,0.35)' }}
-                >
-                  <Clock size={24} color="var(--bg-deep)" />
-                </div>
-                <div className="flex flex-col">
-                  <span
-                    className="text-[0.75rem] text-[var(--clr-text-muted)] uppercase tracking-[0.05em] mb-0.5"
-                    style={{ fontFamily: 'var(--font-mono)' }}
-                  >
-                    Estimasi Pengerjaan
-                  </span>
-                  <span
-                    className="text-[1.5rem] font-black leading-tight text-blue-glow"
-                    style={{ fontFamily: 'var(--font-display)' }}
-                  >
-                    ± {totalDays} Hari Kerja
-                  </span>
-                </div>
-              </div>
-
-              <div className="w-full h-px my-6" style={{ background: 'linear-gradient(90deg, rgba(0,242,254,0.15) 0%, transparent 100%)' }} />
-
-              {/* HUD */}
+            {/* Cost */}
+            <div className="flex items-start gap-4 mb-4">
               <div
-                className="bg-black/25 border border-[var(--clr-border)] p-4 rounded-[4px] text-[0.68rem]"
-                style={{ fontFamily: 'var(--font-mono)' }}
+                style={{
+                  width: '40px', height: '40px',
+                  borderRadius: '8px',
+                  background: 'var(--accent-dim)',
+                  border: '1px solid rgba(200,241,53,0.2)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  flexShrink: 0,
+                }}
               >
-                <span className="block text-[var(--clr-accent)] opacity-80 font-bold mb-2 tracking-[0.2em] uppercase text-[0.68rem]">
-                  STATUS // KALIBRASI LANGSUNG
-                </span>
-                <div className="flex flex-col gap-1.5">
-                  {[
-                    ['SYS.STATE', <span className="text-emerald-400 font-bold">SIAP</span>],
-                    ['CURR.PKG', selectedPackage.toUpperCase()],
-                    ['ADDONS.N', `${selectedAddons.length} DIPILIH`],
-                    ['CALC.HASH', `PXL-${Math.floor(totalCost / 1000)}`],
-                  ].map(([lbl, val]) => (
-                    <div key={lbl} className="flex justify-between text-white/35">
-                      <span>{lbl}</span>
-                      <span className="text-[var(--clr-text-muted)]">{val}</span>
-                    </div>
-                  ))}
-                </div>
+                <DollarSign size={18} style={{ color: 'var(--accent)' }} />
               </div>
-
-              {/* Deco dots */}
-              <div className="flex justify-end items-center gap-1.5 mt-6">
-                {[0,1,2].map(i => (
-                  <div key={i} className={`grid-deco-dot w-1 h-1 bg-[var(--clr-accent)] opacity-30`} />
-                ))}
-                <div className="w-10 h-px bg-[var(--clr-border)]" />
+              <div>
+                <p className="label mb-0.5">Total Biaya</p>
+                <p
+                  style={{
+                    fontFamily: 'var(--font-display)',
+                    fontWeight: 800,
+                    fontSize: '1.5rem',
+                    color: 'var(--accent)',
+                    letterSpacing: '-0.025em',
+                    lineHeight: 1.1,
+                  }}
+                >
+                  {fmt(totalCost)}
+                </p>
               </div>
             </div>
-          </div>
 
+            {/* Duration */}
+            <div className="flex items-start gap-4">
+              <div
+                style={{
+                  width: '40px', height: '40px',
+                  borderRadius: '8px',
+                  background: 'rgba(240,197,110,0.1)',
+                  border: '1px solid rgba(240,197,110,0.2)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  flexShrink: 0,
+                }}
+              >
+                <Clock size={18} style={{ color: 'var(--accent-warm)' }} />
+              </div>
+              <div>
+                <p className="label mb-0.5">Estimasi Waktu</p>
+                <p
+                  style={{
+                    fontFamily: 'var(--font-display)',
+                    fontWeight: 800,
+                    fontSize: '1.5rem',
+                    color: 'var(--accent-warm)',
+                    letterSpacing: '-0.025em',
+                    lineHeight: 1.1,
+                  }}
+                >
+                  ± {totalDays} Hari
+                </p>
+              </div>
+            </div>
+
+            {addons.length > 0 && (
+              <>
+                <div style={{ height: '1px', background: 'var(--border)', margin: '1.5rem 0' }} />
+                <p className="label mb-3">Fitur Tambahan</p>
+                {addons.map(id => {
+                  const a = addOnFeatures.find(x => x.id === id);
+                  return a ? (
+                    <div
+                      key={id}
+                      className="flex justify-between items-center mb-2"
+                    >
+                      <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', fontFamily: 'var(--font-body)' }}>
+                        {a.label}
+                      </span>
+                      <span style={{ fontSize: '0.7rem', color: 'var(--accent)', fontFamily: 'var(--font-mono)' }}>
+                        +{fmt(a.price)}
+                      </span>
+                    </div>
+                  ) : null;
+                })}
+              </>
+            )}
+          </div>
         </div>
+
       </div>
     </section>
   );
