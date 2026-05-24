@@ -1,10 +1,9 @@
-import React from 'react';
-import { ArrowUpRight, Mail, Instagram, Linkedin, Twitter } from 'lucide-react';
+import { ArrowUpRight, Mail } from 'lucide-react';
 
 const socials = [
-  { label: 'Instagram', icon: Instagram, href: '#' },
-  { label: 'LinkedIn',  icon: Linkedin,  href: '#' },
-  { label: 'Twitter',   icon: Twitter,   href: '#' },
+  { label: 'Instagram', href: '#' },
+  { label: 'LinkedIn',  href: '#' },
+  { label: 'Twitter',   href: '#' },
 ];
 
 const Footer = () => {
@@ -110,20 +109,23 @@ const Footer = () => {
           <div className="flex flex-col gap-4">
             <p className="label">Temui Kami</p>
             <div className="flex gap-4">
-              {socials.map(({ label, icon: Icon, href }) => (
+              {socials.map(({ label, href }) => (
                 <a
                   key={label}
                   href={href}
-                  title={label}
                   style={{
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    width: '36px',
-                    height: '36px',
+                    padding: '0.4rem 0.75rem',
                     borderRadius: '8px',
                     border: '1px solid var(--border)',
                     color: 'var(--text-muted)',
+                    fontFamily: 'var(--font-mono)',
+                    fontSize: '0.65rem',
+                    letterSpacing: '0.08em',
+                    textDecoration: 'none',
+                    textTransform: 'uppercase',
                     transition: 'border-color 0.25s, color 0.25s',
                   }}
                   onMouseEnter={e => {
@@ -135,7 +137,7 @@ const Footer = () => {
                     e.currentTarget.style.color = 'var(--text-muted)';
                   }}
                 >
-                  <Icon size={15} />
+                  {label}
                 </a>
               ))}
               <a
