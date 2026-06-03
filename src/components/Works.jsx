@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { ArrowUpRight } from 'lucide-react';
 
 const categories = ['Semua', 'Web App', 'Landing Page', 'Company Profile', 'Undangan'];
@@ -6,39 +6,113 @@ const categories = ['Semua', 'Web App', 'Landing Page', 'Company Profile', 'Unda
 const projects = [
   {
     id: 1,
-    title: "Nova Dashboard",
-    category: "Antarmuka Web App",
+    title: "Kolaborasi Ardata",
+    category: "Web App",
     categoryKey: "Web App",
-    year: "2026",
-    techs: ["React", "Chart.js", "GSAP"],
-    gradient: "linear-gradient(135deg, #0d2818 0%, #1a4d2e 100%)"
+    year: "2025",
+    techs: ["React", "API", "Dashboard"],
+    gradient: "linear-gradient(135deg, #0d2818 0%, #1a4d2e 100%)",
+    thumbnail: "/images/projects/kolaborasi-ardata.png",
+    link: "https://kolaborasi.ardata.co.id/"
   },
   {
     id: 2,
-    title: "Aura Aesthetics",
-    category: "Landing Page Studio Kecantikan",
-    categoryKey: "Landing Page",
+    title: "Optik Pandanaran",
+    category: "Company Profile",
+    categoryKey: "Company Profile",
     year: "2025",
-    techs: ["HTML", "CSS", "GSAP"],
-    gradient: "linear-gradient(135deg, #1a1226 0%, #3d2459 100%)"
+    techs: ["WordPress", "PHP", "MySQL"],
+    gradient: "linear-gradient(135deg, #1a1226 0%, #3d2459 100%)",
+    thumbnail: "/images/projects/optik-pandanaran.png",
+    link: "https://optikpandanaran.com/"
   },
   {
     id: 3,
-    title: "B&W Wedding",
-    category: "Undangan Pernikahan Digital",
-    categoryKey: "Undangan",
-    year: "2026",
-    techs: ["Next.js", "Tailwind", "Lenis"],
-    gradient: "linear-gradient(135deg, #111827 0%, #1e2d40 100%)"
+    title: "Cogmap Brainfit",
+    category: "Web App",
+    categoryKey: "Web App",
+    year: "2025",
+    techs: ["React", "Chart.js", "API"],
+    gradient: "linear-gradient(135deg, #111827 0%, #1e2d40 100%)",
+    thumbnail: "/images/projects/cogmap-brainfit.png",
+    link: "https://cogmap.brainfitonline.co.id/"
   },
   {
     id: 4,
-    title: "Nexus Corp",
-    category: "Website Company Profile",
+    title: "Widya Medika",
+    category: "Company Profile",
     categoryKey: "Company Profile",
-    year: "2026",
-    techs: ["React", "CSS Grid", "EmailJS"],
-    gradient: "linear-gradient(135deg, #0c1929 0%, #162840 100%)"
+    year: "2025",
+    techs: ["WordPress", "CSS", "JavaScript"],
+    gradient: "linear-gradient(135deg, #0c1929 0%, #162840 100%)",
+    thumbnail: "/images/projects/widya-medika.png",
+    link: "https://widyamedika.co.id/"
+  },
+  {
+    id: 5,
+    title: "Rumah Binlat Official",
+    category: "Company Profile",
+    categoryKey: "Company Profile",
+    year: "2025",
+    techs: ["WordPress", "Elementor", "WooCommerce"],
+    gradient: "linear-gradient(135deg, #1a0f2e 0%, #3d1f5c 100%)",
+    thumbnail: "/images/projects/rumah-binlat.png",
+    link: "https://rumahbinlatoffici  al.com/"
+  },
+  {
+    id: 6,
+    title: "KTA Perwakab Batam",
+    category: "Web App",
+    categoryKey: "Web App",
+    year: "2025",
+    techs: ["PHP", "Laravel", "MySQL"],
+    gradient: "linear-gradient(135deg, #0f1a1a 0%, #1e3d3d 100%)",
+    thumbnail: "/images/projects/kta-perwakab.png",
+    link: "https://kta.perwakabbatam.com/login"
+  },
+  {
+    id: 7,
+    title: "Haven Indonesia",
+    category: "Landing Page",
+    categoryKey: "Landing Page",
+    year: "2025",
+    techs: ["HTML", "CSS", "JavaScript"],
+    gradient: "linear-gradient(135deg, #1a1a0f 0%, #3d3d1e 100%)",
+    thumbnail: "/images/projects/haven.png",
+    link: "https://haven.co.id/"
+  },
+  {
+    id: 8,
+    title: "AGPAII Digital",
+    category: "Web App",
+    categoryKey: "Web App",
+    year: "2025",
+    techs: ["React", "Node.js", "MongoDB"],
+    gradient: "linear-gradient(135deg, #0f1a29 0%, #1e3d5c 100%)",
+    thumbnail: "/images/projects/agpaii-digital.png",
+    link: "https://web.agpaiidigital.org/getting-started"
+  },
+  {
+    id: 9,
+    title: "Sertifikasi Kadin Jateng",
+    category: "Web App",
+    categoryKey: "Web App",
+    year: "2025",
+    techs: ["Laravel", "Bootstrap", "MySQL"],
+    gradient: "linear-gradient(135deg, #1a0f0f 0%, #3d1e1e 100%)",
+    thumbnail: "/images/projects/sertifikasi-kadin.png",
+    link: "https://sertifikasi.kadinjateng.com/"
+  },
+  {
+    id: 10,
+    title: "GAMA College",
+    category: "Company Profile",
+    categoryKey: "Company Profile",
+    year: "2025",
+    techs: ["WordPress", "Custom Theme", "SEO"],
+    gradient: "linear-gradient(135deg, #0f291a 0%, #1e5c3d 100%)",
+    thumbnail: "/images/projects/gama-college.png",
+    link: "https://gama-college.com/"
   }
 ];
 
@@ -108,7 +182,14 @@ const Works = () => {
         {/* Project Grid */}
         <div className="col-full grid grid-cols-1 md:grid-cols-2 gap-8" data-reveal>
           {filtered.map(proj => (
-            <div key={proj.id} className="group">
+            <a 
+              key={proj.id} 
+              href={proj.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group"
+              style={{ textDecoration: 'none' }}
+            >
 
               {/* Thumbnail */}
               <div
@@ -116,7 +197,7 @@ const Works = () => {
                 style={{
                   aspectRatio: '16/10',
                   borderRadius: '10px',
-                  background: proj.gradient,
+                  background: `url(${proj.thumbnail}) center/cover, ${proj.gradient}`,
                   border: '1px solid var(--border)',
                 }}
               >
@@ -192,7 +273,7 @@ const Works = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </a>
           ))}
         </div>
 
