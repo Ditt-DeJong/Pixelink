@@ -12,7 +12,7 @@ const projects = [
     year: "2025",
     techs: ["React", "API", "Dashboard"],
     gradient: "linear-gradient(135deg, #0d2818 0%, #1a4d2e 100%)",
-    thumbnail: "/images/projects/kolaborasi-ardata.png",
+    thumbnail: "/images/projects/porto10.png",
     link: "https://kolaborasi.ardata.co.id/"
   },
   {
@@ -23,7 +23,7 @@ const projects = [
     year: "2025",
     techs: ["WordPress", "PHP", "MySQL"],
     gradient: "linear-gradient(135deg, #1a1226 0%, #3d2459 100%)",
-    thumbnail: "/images/projects/optik-pandanaran.png",
+    thumbnail: "/images/projects/porto11.png",
     link: "https://optikpandanaran.com/"
   },
   {
@@ -56,7 +56,7 @@ const projects = [
     year: "2025",
     techs: ["WordPress", "Elementor", "WooCommerce"],
     gradient: "linear-gradient(135deg, #1a0f2e 0%, #3d1f5c 100%)",
-    thumbnail: "/images/projects/rumah-binlat.png",
+    thumbnail: "/images/projects/porto12.png",
     link: "https://rumahbinlatoffici  al.com/"
   },
   {
@@ -67,7 +67,7 @@ const projects = [
     year: "2025",
     techs: ["PHP", "Laravel", "MySQL"],
     gradient: "linear-gradient(135deg, #0f1a1a 0%, #1e3d3d 100%)",
-    thumbnail: "/images/projects/kta-perwakab.png",
+    thumbnail: "/images/projects/porto7.png",
     link: "https://kta.perwakabbatam.com/login"
   },
   {
@@ -78,7 +78,7 @@ const projects = [
     year: "2025",
     techs: ["HTML", "CSS", "JavaScript"],
     gradient: "linear-gradient(135deg, #1a1a0f 0%, #3d3d1e 100%)",
-    thumbnail: "/images/projects/haven.png",
+    thumbnail: "/images/projects/porto14.png",
     link: "https://haven.co.id/"
   },
   {
@@ -89,7 +89,7 @@ const projects = [
     year: "2025",
     techs: ["React", "Node.js", "MongoDB"],
     gradient: "linear-gradient(135deg, #0f1a29 0%, #1e3d5c 100%)",
-    thumbnail: "/images/projects/agpaii-digital.png",
+    thumbnail: "/images/projects/porto6.png",
     link: "https://web.agpaiidigital.org/getting-started"
   },
   {
@@ -100,7 +100,7 @@ const projects = [
     year: "2025",
     techs: ["Laravel", "Bootstrap", "MySQL"],
     gradient: "linear-gradient(135deg, #1a0f0f 0%, #3d1e1e 100%)",
-    thumbnail: "/images/projects/sertifikasi-kadin.png",
+    thumbnail: "/images/projects/porto5.png",
     link: "https://sertifikasi.kadinjateng.com/"
   },
   {
@@ -111,8 +111,52 @@ const projects = [
     year: "2025",
     techs: ["WordPress", "Custom Theme", "SEO"],
     gradient: "linear-gradient(135deg, #0f291a 0%, #1e5c3d 100%)",
-    thumbnail: "/images/projects/gama-college.png",
+    thumbnail: "/images/projects/porto13.png",
     link: "https://gama-college.com/"
+  },
+  {
+    id: 11,
+    title: "Neura Web Apps",
+    category: "Web App",
+    categoryKey: "Web App",
+    year: "2025",
+    techs: ["React", "Vercel", "API"],
+    gradient: "linear-gradient(135deg, #1a0f29 0%, #3d1e5c 100%)",
+    thumbnail: "/images/projects/porto2.png",
+    link: "https://neura-webapps.vercel.app"
+  },
+  {
+    id: 12,
+    title: "Tekodeko",
+    category: "Landing Page",
+    categoryKey: "Landing Page",
+    year: "2025",
+    techs: ["Next.js", "Tailwind", "Vercel"],
+    gradient: "linear-gradient(135deg, #0f1a29 0%, #1e3d5c 100%)",
+    thumbnail: "/images/projects/porto4.png",
+    link: "https://tekodeko.vercel.app"
+  },
+  {
+    id: 13,
+    title: "Portfolio Website",
+    category: "Landing Page",
+    categoryKey: "Landing Page",
+    year: "2025",
+    techs: ["React", "GSAP", "Vercel"],
+    gradient: "linear-gradient(135deg, #1a1a0f 0%, #3d3d1e 100%)",
+    thumbnail: "/portfolio/porto1.png",
+    link: "/images/projects/porto1"
+  },
+    {
+    id: 14,
+    title: "Sitecheck",
+    category: "Landing Page",
+    categoryKey: "Landing Page",
+    year: "2025",
+    techs: ["Laravel", "MySQL", "Bootstrap"],
+    gradient: "linear-gradient(135deg, #0d2818 0%, #1a4d2e 100%)",
+    thumbnail: "/images/projects/porto3.png",
+    link: "https://magang.ardata.co.id"
   }
 ];
 
