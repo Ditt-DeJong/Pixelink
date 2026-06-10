@@ -144,8 +144,8 @@ const projects = [
     year: "2025",
     techs: ["React", "GSAP", "Vercel"],
     gradient: "linear-gradient(135deg, #1a1a0f 0%, #3d3d1e 100%)",
-    thumbnail: "/portfolio/porto1.png",
-    link: "/images/projects/porto1"
+    thumbnail: "/images/projects/porto1.png",
+    link: "https://site-checker-five.vercel.app"
   },
     {
     id: 14,
