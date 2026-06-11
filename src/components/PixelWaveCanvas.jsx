@@ -1,218 +1,177 @@
-import React, { useRef, useEffect } from 'react';
+import { useRef, useEffect } from 'react';
 
 const PixelWaveCanvas = () => {
   const canvasRef = useRef(null);
-  const mouseRef = useRef({ x: -1000, y: -1000, active: false });
+  const mouseRef  = useRef({ x: -1000, y: -1000 });
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const ctx = canvas.getContext('2d');
+    // willReadFrequently: false — we only write, never read pixels
+    const ctx = canvas.getContext('2d', { alpha: true, willReadFrequently: false });
     if (!ctx) return;
 
-    let animationFrameId;
-    let width = canvas.width = canvas.offsetWidth;
-    let height = canvas.height = canvas.offsetHeight;
+    let rafId;
+    let width = 0, height = 0;
 
-    // Grid configuration
-    const cols = 28;
-    const rows = 14;
-    const spacingX = width / (cols - 1);
-    const spacingY = height / (rows - 1);
-    
-    // Create particles representing the grid
+    const COLS = 22;
+    const ROWS = 11;
+    const MOUSE_RADIUS = 110;
+    const MOUSE_RADIUS_SQ = MOUSE_RADIUS * MOUSE_RADIUS;
+
     let particles = [];
-    for (let c = 0; c < cols; c++) {
-      for (let r = 0; r < rows; r++) {
-        // We set coordinates with a natural wave envelope to start with
-        const baseX = c * spacingX;
-        const baseY = height / 2 + (r - rows / 2) * (spacingY * 0.7);
-        
-        particles.push({
-          c,
-          r,
-          baseX,
-          baseY,
-          x: baseX,
-          y: baseY,
-          size: 0,
-          opacity: 0,
-          phase: (c / cols) * Math.PI * 2 + (r / rows) * Math.PI
-        });
-      }
-    }
 
-    const handleResize = () => {
-      if (!canvas) return;
-      width = canvas.width = canvas.offsetWidth;
+    const buildParticles = () => {
+      width  = canvas.width  = canvas.offsetWidth;
       height = canvas.height = canvas.offsetHeight;
-      
-      const newSpacingX = width / (cols - 1);
-      const newSpacingY = height / (rows - 1);
-      
-      particles.forEach(p => {
-        p.baseX = p.c * newSpacingX;
-        p.baseY = height / 2 + (p.r - rows / 2) * (newSpacingY * 0.7);
-      });
+      const sx = width  / (COLS - 1);
+      const sy = height / (ROWS - 1);
+
+      particles = new Array(COLS * ROWS);
+      let i = 0;
+      for (let c = 0; c < COLS; c++) {
+        for (let r = 0; r < ROWS; r++) {
+          const bx = c * sx;
+          const by = height / 2 + (r - ROWS / 2) * (sy * 0.7);
+          particles[i++] = {
+            bx, by,
+            x: bx, y: by,
+            phase: (c / COLS) * Math.PI * 2 + (r / ROWS) * Math.PI,
+            cr: c / (COLS - 1), // pre-calc color ratio
+          };
+        }
+      }
     };
 
-    window.addEventListener('resize', handleResize);
+    buildParticles();
 
-    const handleMouseMove = (e) => {
-      const rect = canvas.getBoundingClientRect();
-      mouseRef.current = {
-        x: e.clientX - rect.left,
-        y: e.clientY - rect.top,
-        active: true
-      };
+    // Debounced resize
+    let resizeTimer;
+    const onResize = () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(buildParticles, 200);
     };
+    window.addEventListener('resize', onResize, { passive: true });
 
-    const handleMouseLeave = () => {
-      mouseRef.current = { x: -1000, y: -1000, active: false };
+    // Mouse
+    const onMouseMove = (e) => {
+      const r = canvas.getBoundingClientRect();
+      mouseRef.current = { x: e.clientX - r.left, y: e.clientY - r.top };
     };
-
-    canvas.addEventListener('mousemove', handleMouseMove);
-    canvas.addEventListener('mouseleave', handleMouseLeave);
+    const onMouseLeave = () => { mouseRef.current = { x: -1000, y: -1000 }; };
+    canvas.addEventListener('mousemove', onMouseMove, { passive: true });
+    canvas.addEventListener('mouseleave', onMouseLeave);
 
     let time = 0;
+
+    // Pre-allocate bucket map to avoid per-frame object creation
+    // Key = "r,g,b,opacityBucket" → array of particle draw calls
+    const buckets = new Map();
+
     const render = () => {
-      time += 0.02;
+      time += 0.016;
       ctx.clearRect(0, 0, width, height);
 
-      // Draw subtle horizontal mesh lines connecting the wave columns to make it look linked
-      ctx.strokeStyle = 'rgba(0, 242, 254, 0.03)';
-      ctx.lineWidth = 1;
+      const { x: mx, y: my } = mouseRef.current;
 
-      const mouse = mouseRef.current;
+      buckets.clear();
 
-      // Update positions and draw
-      particles.forEach((p, index) => {
-        // Base mathematical sine wave to create the wave motion
-        // We use sine wave based on X coordinate + time to make a running wave
-        const waveY = Math.sin(p.baseX * 0.006 - time * 1.5) * 35;
-        const waveX = Math.cos(p.baseY * 0.005 - time * 0.8) * 10;
-        
-        const targetX = p.baseX + waveX;
-        const targetY = p.baseY + waveY;
+      const len = particles.length;
+      for (let i = 0; i < len; i++) {
+        const p = particles[i];
 
-        // Mouse interaction displacement
-        let dispX = 0;
-        let dispY = 0;
-        if (mouse.active) {
-          const dx = targetX - mouse.x;
-          const dy = targetY - mouse.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          const forceRadius = 120;
+        // Wave
+        const wy = Math.sin(p.bx * 0.006 - time * 1.4) * 30;
+        const wx = Math.cos(p.by * 0.005 - time * 0.75) * 8;
+        let tx = p.bx + wx;
+        let ty = p.by + wy;
 
-          if (dist < forceRadius) {
-            const force = (forceRadius - dist) / forceRadius; // 0 to 1
-            const angle = Math.atan2(dy, dx);
-            // Push particles away
-            const push = force * 20;
-            dispX = Math.cos(angle) * push;
-            dispY = Math.sin(angle) * push;
-          }
+        // Mouse repulsion (skip sqrt when far)
+        const dx = tx - mx;
+        const dy = ty - my;
+        const d2 = dx * dx + dy * dy;
+        if (d2 < MOUSE_RADIUS_SQ) {
+          const dist  = Math.sqrt(d2);
+          const force = (MOUSE_RADIUS - dist) / MOUSE_RADIUS;
+          const inv   = 1 / dist;
+          tx += dx * inv * force * 16;
+          ty += dy * inv * force * 16;
         }
 
-        // Apply smooth spring-like physics interpolation
-        p.x += (targetX + dispX - p.x) * 0.1;
-        p.y += (targetY + dispY - p.y) * 0.1;
+        // Spring lerp
+        p.x += (tx - p.x) * 0.1;
+        p.y += (ty - p.y) * 0.1;
 
-        // Halftone size calculation matching the wave logo:
-        // Larger in the middle of the wave, tapering off to tiny dots at the left and right ends
-        const horizontalEnvelope = Math.sin((p.x / width) * Math.PI);
-        const verticalEnvelope = Math.sin(((p.r + 1) / (rows + 1)) * Math.PI);
-        
-        // Base size multiplier
-        let finalSize = 7 * horizontalEnvelope * verticalEnvelope;
-        
-        // Size pulsation
-        finalSize += Math.sin(time * 2 + p.phase) * 1.5;
-        
-        if (finalSize < 1) finalSize = 1;
+        // Size & opacity envelope
+        const hEnv = Math.sin((p.x / width) * Math.PI);
+        const vEnv = Math.sin(((i % ROWS + 1) / (ROWS + 1)) * Math.PI);
+        let sz = 6 * hEnv * vEnv + Math.sin(time * 2 + p.phase) * 1.2;
+        if (sz < 0.7) sz = 0.7;
 
-        p.size = finalSize;
-        p.opacity = 0.2 + 0.8 * horizontalEnvelope * verticalEnvelope;
+        const op = Math.round((0.15 + 0.85 * hEnv * vEnv) * 10) / 10; // quantise → fewer unique keys
 
-        // Calculate gradient color
-        // Left columns are lighter cyan, right columns are deeper electric blue
-        const colorRatio = p.x / width;
-        const r = Math.round(0 + (79 - 0) * colorRatio);
-        const g = Math.round(242 + (172 - 242) * colorRatio);
-        const b = Math.round(254 + (254 - 254) * colorRatio);
-        
-        ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${p.opacity})`;
+        // Color (cyan → blue gradient)
+        const r = Math.round(p.cr * 79);
+        const g = Math.round(242 - p.cr * 70);
+        const key = `${r},${g},254,${op}`;
 
-        // Draw rounded squares (representing the halftone pixels of the logo)
-        const radius = p.size * 0.35; // Rounded corners
-        ctx.beginPath();
-        
-        // Custom draw rounded rectangle (ctx.roundRect may not be supported in older platforms, so we use standard arc curves)
-        const px = p.x - p.size / 2;
-        const py = p.y - p.size / 2;
-        const w = p.size;
-        const h = p.size;
-        
-        ctx.moveTo(px + radius, py);
-        ctx.lineTo(px + w - radius, py);
-        ctx.quadraticCurveTo(px + w, py, px + w, py + radius);
-        ctx.lineTo(px + w, py + h - radius);
-        ctx.quadraticCurveTo(px + w, py + h, px + w - radius, py + h);
-        ctx.lineTo(px + radius, py + h - radius);
-        ctx.quadraticCurveTo(px, py + h, px, py + h - radius);
-        ctx.lineTo(px, py + radius);
-        ctx.quadraticCurveTo(px, py, px + radius, py);
-        ctx.closePath();
-        ctx.fill();
+        let bucket = buckets.get(key);
+        if (!bucket) { bucket = []; buckets.set(key, bucket); }
+        bucket.push(p.x, p.y, sz);
+      }
 
-        // Optional: Adding a micro cyan glow overlay for very premium feeling
-        if (p.size > 5 && Math.random() > 0.99) {
-          ctx.shadowBlur = 10;
-          ctx.shadowColor = 'rgba(0, 242, 254, 0.6)';
-          ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+      // Draw — one fillStyle set per unique colour bucket
+      for (const [key, draws] of buckets) {
+        ctx.fillStyle = `rgba(${key})`;
+        const n = draws.length;
+        for (let j = 0; j < n; j += 3) {
+          const px  = draws[j];
+          const py  = draws[j + 1];
+          const sz  = draws[j + 2];
+          const rx  = px - sz * 0.5;
+          const ry  = py - sz * 0.5;
+          const rad = sz * 0.35;
+
+          ctx.beginPath();
+          ctx.moveTo(rx + rad, ry);
+          ctx.lineTo(rx + sz - rad, ry);
+          ctx.arcTo(rx + sz, ry, rx + sz, ry + rad, rad);
+          ctx.lineTo(rx + sz, ry + sz - rad);
+          ctx.arcTo(rx + sz, ry + sz, rx + sz - rad, ry + sz, rad);
+          ctx.lineTo(rx + rad, ry + sz);
+          ctx.arcTo(rx, ry + sz, rx, ry + sz - rad, rad);
+          ctx.lineTo(rx, ry + rad);
+          ctx.arcTo(rx, ry, rx + rad, ry, rad);
+          ctx.closePath();
           ctx.fill();
-          ctx.shadowBlur = 0; // reset
         }
-      });
+      }
 
-      animationFrameId = requestAnimationFrame(render);
+      rafId = requestAnimationFrame(render);
     };
 
     render();
 
     return () => {
-      window.removeEventListener('resize', handleResize);
-      if (canvas) {
-        canvas.removeEventListener('mousemove', handleMouseMove);
-        canvas.removeEventListener('mouseleave', handleMouseLeave);
-      }
-      cancelAnimationFrame(animationFrameId);
+      cancelAnimationFrame(rafId);
+      clearTimeout(resizeTimer);
+      window.removeEventListener('resize', onResize);
+      canvas.removeEventListener('mousemove', onMouseMove);
+      canvas.removeEventListener('mouseleave', onMouseLeave);
     };
   }, []);
 
   return (
     <div style={{ width: '100%', height: '100%', position: 'relative' }}>
-      {/* Decorative tech border around the canvas area */}
-      <div className="absolute inset-0 border border-[rgba(0,242,254,0.06)] rounded-lg pointer-events-none"></div>
-      
-      {/* Corner indicators for futuristic agency HUD feel */}
-      <div className="absolute top-2 left-2 w-2 h-2 border-t border-l border-[rgba(0,242,254,0.3)] pointer-events-none"></div>
-      <div className="absolute top-2 right-2 w-2 h-2 border-t border-r border-[rgba(0,242,254,0.3)] pointer-events-none"></div>
-      <div className="absolute bottom-2 left-2 w-2 h-2 border-b border-l border-[rgba(0,242,254,0.3)] pointer-events-none"></div>
-      <div className="absolute bottom-2 right-2 w-2 h-2 border-b border-r border-[rgba(0,242,254,0.3)] pointer-events-none"></div>
-      
-      {/* Subtle halftone background overlay for the HUD */}
-      <div className="absolute inset-0 bg-[radial-gradient(rgba(0,242,254,0.015)_1px,transparent_1px)] bg-[size:12px_12px] pointer-events-none"></div>
-      
-      <canvas 
-        ref={canvasRef} 
-        style={{ 
-          width: '100%', 
-          height: '100%', 
-          display: 'block',
-          cursor: 'none'
-        }} 
+      <div className="absolute inset-0 border border-[rgba(0,242,254,0.06)] rounded-lg pointer-events-none" />
+      <div className="absolute top-2 left-2 w-2 h-2 border-t border-l border-[rgba(0,242,254,0.3)] pointer-events-none" />
+      <div className="absolute top-2 right-2 w-2 h-2 border-t border-r border-[rgba(0,242,254,0.3)] pointer-events-none" />
+      <div className="absolute bottom-2 left-2 w-2 h-2 border-b border-l border-[rgba(0,242,254,0.3)] pointer-events-none" />
+      <div className="absolute bottom-2 right-2 w-2 h-2 border-b border-r border-[rgba(0,242,254,0.3)] pointer-events-none" />
+      <canvas
+        ref={canvasRef}
+        style={{ width: '100%', height: '100%', display: 'block', cursor: 'none' }}
       />
     </div>
   );

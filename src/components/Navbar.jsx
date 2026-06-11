@@ -20,7 +20,9 @@ const Navbar = () => {
     <nav
       className="fixed top-0 left-0 right-0 z-[100] transition-all duration-500"
       style={{
-        padding: scrolled ? '0.8rem clamp(1.25rem,4vw,4rem)' : '1.2rem clamp(1.25rem,4vw,4rem)',
+        padding: scrolled
+          ? 'var(--s4) var(--container-px)'   /* 16px top/bottom scrolled */
+          : 'var(--s6) var(--container-px)',   /* 24px top/bottom default */
         background: scrolled ? 'rgba(8,8,8,0.85)' : 'transparent',
         backdropFilter: scrolled ? 'blur(20px)' : 'none',
         borderBottom: scrolled ? '1px solid var(--border)' : '1px solid transparent',
@@ -29,7 +31,7 @@ const Navbar = () => {
       <div className="flex items-center justify-between max-w-[1400px] mx-auto">
 
         {/* Brand */}
-        <a href="#" className="flex items-center gap-2.5">
+        <a href="#" className="flex items-center" style={{ gap: 'var(--s3)' }}> {/* 12px */}
           <img src="/images/logo.png" alt="Logo" className="h-8 w-auto" />
           <span
             style={{
@@ -46,7 +48,7 @@ const Navbar = () => {
         </a>
 
         {/* Desktop Nav */}
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden md:flex items-center" style={{ gap: 'var(--s8)' }}> {/* 32px */}
           {links.map(([label, href]) => (
             <a
               key={label}
@@ -65,50 +67,33 @@ const Navbar = () => {
               {label}
             </a>
           ))}
-          <a
-            href="#planner"
-            className="btn--primary"
-            style={{ padding: '0.55em 1.4em', fontSize: '0.78rem' }}
-          >
+          <a href="#planner" className="btn--primary">
             Mulai Proyek
           </a>
         </div>
 
         {/* Mobile Toggle */}
         <button
-          className="md:hidden flex flex-col gap-1.5"
+          className="md:hidden flex flex-col"
+          style={{ gap: 'var(--s1)', padding: 'var(--s2)' }} /* gap 4px, padding 8px */
           onClick={() => setMobileOpen(!mobileOpen)}
-          style={{ color: 'var(--text-primary)' }}
         >
-          <span
-            className="block h-[1.5px] w-6 transition-transform duration-300"
-            style={{
-              background: 'var(--text-primary)',
-              transform: mobileOpen ? 'translateY(4px) rotate(45deg)' : 'none',
-            }}
-          />
-          <span
-            className="block h-[1.5px] w-4 transition-all duration-300"
-            style={{
-              background: 'var(--text-primary)',
-              opacity: mobileOpen ? 0 : 1,
-            }}
-          />
-          <span
-            className="block h-[1.5px] w-6 transition-transform duration-300"
-            style={{
-              background: 'var(--text-primary)',
-              transform: mobileOpen ? 'translateY(-4px) rotate(-45deg)' : 'none',
-            }}
-          />
+          <span className="block h-[1.5px] w-6 transition-transform duration-300"
+            style={{ background: 'var(--text-primary)', transform: mobileOpen ? 'translateY(5px) rotate(45deg)' : 'none' }} />
+          <span className="block h-[1.5px] w-4 transition-all duration-300"
+            style={{ background: 'var(--text-primary)', opacity: mobileOpen ? 0 : 1 }} />
+          <span className="block h-[1.5px] w-6 transition-transform duration-300"
+            style={{ background: 'var(--text-primary)', transform: mobileOpen ? 'translateY(-5px) rotate(-45deg)' : 'none' }} />
         </button>
       </div>
 
       {/* Mobile Menu */}
       {mobileOpen && (
         <div
-          className="md:hidden absolute top-full left-0 w-full flex flex-col p-6 gap-5"
+          className="md:hidden absolute top-full left-0 w-full flex flex-col"
           style={{
+            padding: 'var(--s6) var(--container-px)', /* 24px */
+            gap: 'var(--s5)',                          /* 20px */
             background: 'rgba(8,8,8,0.96)',
             backdropFilter: 'blur(20px)',
             borderTop: '1px solid var(--border)',
@@ -129,11 +114,7 @@ const Navbar = () => {
               {label}
             </a>
           ))}
-          <a
-            href="#planner"
-            onClick={() => setMobileOpen(false)}
-            className="btn--primary w-fit"
-          >
+          <a href="#planner" onClick={() => setMobileOpen(false)} className="btn--primary w-fit">
             Mulai Proyek
           </a>
         </div>

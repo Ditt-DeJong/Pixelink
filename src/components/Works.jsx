@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import { ArrowUpRight } from 'lucide-react';
 
 const categories = ['Semua', 'Web App', 'Landing Page', 'Company Profile', 'Undangan'];
@@ -7,8 +7,8 @@ const projects = [
   {
     id: 1,
     title: "Kolaborasi Ardata",
-    category: "Web App",
-    categoryKey: "Web App",
+    category: "Company Profile", subcategory: "Teknologi",
+    categoryKey: "Company Profile",
     year: "2025",
     techs: ["React", "API", "Dashboard"],
     gradient: "linear-gradient(135deg, #0d2818 0%, #1a4d2e 100%)",
@@ -18,7 +18,7 @@ const projects = [
   {
     id: 2,
     title: "Optik Pandanaran",
-    category: "Company Profile",
+    category: "Company Profile", subcategory: "Kesehatan & Optik",
     categoryKey: "Company Profile",
     year: "2025",
     techs: ["WordPress", "PHP", "MySQL"],
@@ -29,41 +29,41 @@ const projects = [
   {
     id: 3,
     title: "Cogmap Brainfit",
-    category: "Web App",
-    categoryKey: "Web App",
+    category: "Company Profile", subcategory: "Bimbel Anak",
+    categoryKey: "Company Profile",
     year: "2025",
     techs: ["React", "Chart.js", "API"],
     gradient: "linear-gradient(135deg, #111827 0%, #1e2d40 100%)",
-    thumbnail: "/images/projects/cogmap-brainfit.png",
+    thumbnail: "/images/projects/porto9.png",
     link: "https://cogmap.brainfitonline.co.id/"
   },
   {
     id: 4,
     title: "Widya Medika",
-    category: "Company Profile",
+    category: "Company Profile", subcategory: "Alat Kesehatan",
     categoryKey: "Company Profile",
     year: "2025",
     techs: ["WordPress", "CSS", "JavaScript"],
     gradient: "linear-gradient(135deg, #0c1929 0%, #162840 100%)",
-    thumbnail: "/images/projects/widya-medika.png",
+    thumbnail: "/images/projects/porto8.png",
     link: "https://widyamedika.co.id/"
   },
   {
     id: 5,
     title: "Rumah Binlat Official",
-    category: "Company Profile",
+    category: "Company Profile", subcategory: "Pendidikan",
     categoryKey: "Company Profile",
     year: "2025",
     techs: ["WordPress", "Elementor", "WooCommerce"],
     gradient: "linear-gradient(135deg, #1a0f2e 0%, #3d1f5c 100%)",
     thumbnail: "/images/projects/porto12.png",
-    link: "https://rumahbinlatoffici  al.com/"
+    link: "https://rumahbinlatofficial.com/"
   },
   {
     id: 6,
     title: "KTA Perwakab Batam",
-    category: "Web App",
-    categoryKey: "Web App",
+    category: "Company Profile", subcategory: "Manajemen Keanggotaan",
+    categoryKey: "Company Profile",
     year: "2025",
     techs: ["PHP", "Laravel", "MySQL"],
     gradient: "linear-gradient(135deg, #0f1a1a 0%, #1e3d3d 100%)",
@@ -73,7 +73,7 @@ const projects = [
   {
     id: 7,
     title: "Haven Indonesia",
-    category: "Landing Page",
+    category: "Landing Page", subcategory: "Sistem Penyewaan Kos",
     categoryKey: "Landing Page",
     year: "2025",
     techs: ["HTML", "CSS", "JavaScript"],
@@ -84,8 +84,8 @@ const projects = [
   {
     id: 8,
     title: "AGPAII Digital",
-    category: "Web App",
-    categoryKey: "Web App",
+    category: "Company Profile", subcategory: "Manajemen Keanggotaan",
+    categoryKey: "Company Profile",
     year: "2025",
     techs: ["React", "Node.js", "MongoDB"],
     gradient: "linear-gradient(135deg, #0f1a29 0%, #1e3d5c 100%)",
@@ -95,7 +95,7 @@ const projects = [
   {
     id: 9,
     title: "Sertifikasi Kadin Jateng",
-    category: "Web App",
+    category: "Landing Page", subcategory: "Sertifikasi",
     categoryKey: "Web App",
     year: "2025",
     techs: ["Laravel", "Bootstrap", "MySQL"],
@@ -106,7 +106,7 @@ const projects = [
   {
     id: 10,
     title: "GAMA College",
-    category: "Company Profile",
+    category: "Company Profile", subcategory: "Pendidikan",
     categoryKey: "Company Profile",
     year: "2025",
     techs: ["WordPress", "Custom Theme", "SEO"],
@@ -117,7 +117,7 @@ const projects = [
   {
     id: 11,
     title: "Neura Web Apps",
-    category: "Web App",
+    category: "Web App", subcategory: "Konsultasi Kesehatan",
     categoryKey: "Web App",
     year: "2025",
     techs: ["React", "Vercel", "API"],
@@ -128,7 +128,7 @@ const projects = [
   {
     id: 12,
     title: "Tekodeko",
-    category: "Landing Page",
+    category: "Landing Page", subcategory: "",
     categoryKey: "Landing Page",
     year: "2025",
     techs: ["Next.js", "Tailwind", "Vercel"],
@@ -139,7 +139,7 @@ const projects = [
   {
     id: 13,
     title: "Portfolio Website",
-    category: "Landing Page",
+    category: "Landing Page", subcategory: "Personal Branding",
     categoryKey: "Landing Page",
     year: "2025",
     techs: ["React", "GSAP", "Vercel"],
@@ -147,11 +147,11 @@ const projects = [
     thumbnail: "/images/projects/porto1.png",
     link: "https://site-checker-five.vercel.app"
   },
-    {
+  {
     id: 14,
     title: "Sitecheck",
-    category: "Landing Page",
-    categoryKey: "Landing Page",
+    category: "Web App", subcategory: "Developer Tools",
+    categoryKey: "Web App",
     year: "2025",
     techs: ["Laravel", "MySQL", "Bootstrap"],
     gradient: "linear-gradient(135deg, #0d2818 0%, #1a4d2e 100%)",
@@ -163,9 +163,15 @@ const projects = [
 const Works = () => {
   const [activeFilter, setActiveFilter] = useState('Semua');
 
-  const filtered = activeFilter === 'Semua'
-    ? projects
-    : projects.filter(p => p.categoryKey === activeFilter);
+  // Memoize filter — only recomputes when activeFilter changes
+  const filtered = useMemo(() =>
+    activeFilter === 'Semua'
+      ? projects
+      : projects.filter(p => p.categoryKey === activeFilter),
+    [activeFilter]
+  );
+
+  const handleFilter = useCallback((cat) => setActiveFilter(cat), []);
 
   return (
     <section id="works" className="section">
@@ -178,8 +184,8 @@ const Works = () => {
           <span className="label">Karya Unggulan</span>
         </header>
 
-        {/* Title + Filter row */}
-        <div className="col-full flex flex-wrap justify-between items-end gap-6 mb-12" data-reveal>
+        {/* Title + Filter row — mb:48px, gap:24px */}
+        <div className="col-full flex flex-wrap justify-between items-end" style={{ gap: 'var(--s6)', marginBottom: 'var(--s12)' }} data-reveal>
           <h2 className="headline">
             Proyek{' '}
             <span
@@ -194,14 +200,12 @@ const Works = () => {
             </span>
           </h2>
 
-          {/* Filter Pills */}
-          <div
-            className="flex flex-wrap gap-2"
-          >
+          {/* Filter Pills — gap:8px */}
+          <div className="flex flex-wrap" style={{ gap: 'var(--s2)' }}>
             {categories.map(cat => (
               <button
                 key={cat}
-                onClick={() => setActiveFilter(cat)}
+                onClick={() => handleFilter(cat)}
                 style={{
                   fontFamily: 'var(--font-mono)',
                   fontSize: '0.65rem',
@@ -223,8 +227,8 @@ const Works = () => {
           </div>
         </div>
 
-        {/* Project Grid */}
-        <div className="col-full grid grid-cols-1 md:grid-cols-2 gap-8" data-reveal>
+        {/* Project Grid — gap:32px */}
+        <div className="col-full grid grid-cols-1 md:grid-cols-2" style={{ gap: 'var(--s8)' }} data-reveal>
           {filtered.map(proj => (
             <a 
               key={proj.id} 
@@ -235,19 +239,35 @@ const Works = () => {
               style={{ textDecoration: 'none' }}
             >
 
-              {/* Thumbnail */}
+              {/* Thumbnail — mb:20px */}
               <div
-                className="relative overflow-hidden mb-5"
+                className="relative overflow-hidden"
                 style={{
                   aspectRatio: '16/10',
                   borderRadius: '10px',
-                  background: `url(${proj.thumbnail}) center/cover, ${proj.gradient}`,
+                  background: proj.gradient,
                   border: '1px solid var(--border)',
+                  transition: 'border-color 0.3s',
+                  marginBottom: 'var(--s5)',
                 }}
               >
+                <img
+                  src={proj.thumbnail}
+                  alt={proj.title}
+                  loading="lazy"
+                  decoding="async"
+                  width="800"
+                  height="500"
+                  style={{
+                    position: 'absolute', inset: 0,
+                    width: '100%', height: '100%',
+                    objectFit: 'cover',
+                    willChange: 'opacity',
+                  }}
+                />
                 {/* Hover overlay */}
                 <div
-                  className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                  className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                   style={{ background: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(4px)' }}
                 >
                   <span
@@ -257,12 +277,10 @@ const Works = () => {
                       fontSize: '0.8rem',
                       fontWeight: 500,
                       color: 'var(--text-primary)',
-                      padding: '0.6em 1.5em',
+                      padding: 'var(--s2) var(--s6)',  /* 8px 24px */
                       borderRadius: '100px',
                       border: '1px solid rgba(255,255,255,0.2)',
                       background: 'rgba(255,255,255,0.05)',
-                      transform: 'translateY(8px)',
-                      transition: 'transform 0.4s var(--ease-out-expo)',
                     }}
                   >
                     Lihat Proyek <ArrowUpRight size={14} />
@@ -270,47 +288,38 @@ const Works = () => {
                 </div>
               </div>
 
-              {/* Meta */}
-              <div className="flex justify-between items-start">
+              {/* Meta — gap:8px */}
+              <div className="flex justify-between items-start" style={{ gap: 'var(--s2)' }}>
                 <div>
-                  <h3
-                    style={{
-                      fontFamily: 'var(--font-display)',
-                      fontWeight: 700,
-                      fontSize: '1.15rem',
-                      color: 'var(--text-primary)',
-                      letterSpacing: '-0.02em',
-                      marginBottom: '0.3rem',
-                    }}
-                  >
+                  <h3 style={{
+                    fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.15rem',
+                    color: 'var(--text-primary)', letterSpacing: '-0.02em', marginBottom: 'var(--s1)',
+                  }}>
                     {proj.title}
                   </h3>
-                  <p
-                    style={{
-                      fontFamily: 'var(--font-body)',
-                      fontSize: '0.78rem',
-                      color: 'var(--text-muted)',
-                    }}
-                  >
+                  <p style={{
+                    fontFamily: 'var(--font-body)', fontSize: '0.78rem',
+                    color: 'var(--text-muted)',
+                    display: 'flex', alignItems: 'center', gap: 'var(--s2)',
+                  }}>
                     {proj.category}
+                    {proj.subcategory && (
+                      <>
+                        <span style={{ opacity: 0.35 }}>·</span>
+                        <span style={{ color: 'var(--accent)', opacity: 0.7 }}>{proj.subcategory}</span>
+                      </>
+                    )}
                   </p>
                 </div>
-                <div className="flex flex-col items-end gap-2">
+                <div className="flex flex-col items-end" style={{ gap: 'var(--s2)' }}> {/* gap:8px */}
                   <span className="label">{proj.year}</span>
-                  <div className="flex gap-1.5 flex-wrap justify-end">
+                  <div className="flex flex-wrap justify-end" style={{ gap: 'var(--s1)' }}> {/* gap:4px */}
                     {proj.techs.map(t => (
-                      <span
-                        key={t}
-                        style={{
-                          fontFamily: 'var(--font-mono)',
-                          fontSize: '0.6rem',
-                          letterSpacing: '0.05em',
-                          padding: '0.3em 0.7em',
-                          borderRadius: '4px',
-                          border: '1px solid var(--border)',
-                          color: 'var(--text-muted)',
-                        }}
-                      >
+                      <span key={t} style={{
+                        fontFamily: 'var(--font-mono)', fontSize: '0.6rem', letterSpacing: '0.05em',
+                        padding: 'var(--s1) var(--s2)',  /* 4px 8px */
+                        borderRadius: '4px', border: '1px solid var(--border)', color: 'var(--text-muted)',
+                      }}>
                         {t}
                       </span>
                     ))}
@@ -321,8 +330,8 @@ const Works = () => {
           ))}
         </div>
 
-        {/* See all */}
-        <div className="col-full mt-12 flex justify-center" data-reveal>
+        {/* See all — mt:48px */}
+        <div className="col-full flex justify-center" style={{ marginTop: 'var(--s12)' }} data-reveal>
           <a
             href="#"
             className="btn--ghost"

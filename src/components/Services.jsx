@@ -1,179 +1,158 @@
-import React from 'react';
-import { Check, Clock } from 'lucide-react';
+import { useRef, useCallback } from 'react';
+import { Check, Clock, ArrowRight } from 'lucide-react';
 
 const servicesList = [
   {
-    tier: "01",
-    title: "Undangan Digital",
-    subName: "Pernikahan & Acara Spesial",
-    price: "Rp 75rb – 150rb",
-    duration: "2–3 Hari",
+    tier: "01", title: "Undangan Digital", subName: "Pernikahan & Acara Spesial",
+    price: "Rp 75rb – 200rb", duration: "2–3 Hari",
     features: ["1 halaman animasi premium", "Formulir RSVP interaktif", "Notifikasi WhatsApp", "Desain responsif", "Hosting & SSL"]
   },
   {
-    tier: "02",
-    title: "Landing Page",
-    subName: "Bisnis & Personal Branding",
-    price: "Rp 300rb – 500rb",
-    duration: "3–5 Hari",
+    tier: "02", title: "Landing Page", subName: "Bisnis & Personal Branding",
+    price: "Rp 400rb – 800rb", duration: "3–5 Hari",
     features: ["4–6 seksi konten", "Tombol CTA & kontak", "Integrasi WhatsApp", "SEO & Analytics", "Hosting (1 tahun)"]
   },
   {
-    tier: "03",
-    title: "Company Profile",
-    subName: "Perusahaan & Organisasi",
-    price: "Rp 600rb – 1jt",
-    duration: "5–7 Hari",
+    tier: "03", title: "Company Profile", subName: "Perusahaan & Organisasi",
+    price: "Rp 700rb – 1.5jt", duration: "5–7 Hari",
     features: ["5–7 halaman lengkap", "SEO penuh", "Formulir & Google Maps", "Blog opsional", "3x revisi + support"]
   },
   {
-    tier: "04",
-    title: "Web Portofolio",
-    subName: "Individu & Kreator",
-    price: "Rp 250rb – 400rb",
-    duration: "3–4 Hari",
+    tier: "04", title: "Web Portofolio", subName: "Individu & Kreator",
+    price: "Rp 300rb – 600rb", duration: "3–4 Hari",
     features: ["3–5 halaman web", "Galeri karya", "Halaman kontak", "SEO dasar", "Desain responsif"]
   },
   {
-    tier: "05",
-    title: "Pemeliharaan",
-    subName: "Semua Klien Aktif",
-    price: "Rp 150rb – 350rb",
-    duration: "Ongoing",
+    tier: "05", title: "Pemeliharaan", subName: "Semua Klien Aktif",
+    price: "Rp 150rb – 350rb", duration: "Ongoing",
     features: ["Pembaruan konten", "Backup rutin", "Laporan bulanan", "Perbaikan bug", "Dukungan prioritas"]
   }
 ];
 
+/* ── ServiceCard ──────────────────────────────────────────────────────────── */
+const ServiceCard = ({ srv }) => {
+  const cardRef   = useRef(null);
+  const glowRef   = useRef(null);
+  const frameRef  = useRef(null);
+
+  // Mouse spotlight — runs on rAF to avoid layout thrash
+  const onMouseMove = useCallback((e) => {
+    if (frameRef.current) cancelAnimationFrame(frameRef.current);
+    frameRef.current = requestAnimationFrame(() => {
+      const card = cardRef.current;
+      const glow = glowRef.current;
+      if (!card || !glow) return;
+
+      const rect  = card.getBoundingClientRect();
+      const x     = e.clientX - rect.left;
+      const y     = e.clientY - rect.top;
+
+      // Spotlight gradient follows cursor
+      glow.style.background =
+        `radial-gradient(320px circle at ${x}px ${y}px, rgba(200,241,53,0.10) 0%, transparent 65%)`;
+
+      // Subtle tilt — max ±6deg
+      const cx    = rect.width  / 2;
+      const cy    = rect.height / 2;
+      const rotX  = ((y - cy) / cy) * -6;
+      const rotY  = ((x - cx) / cx) *  6;
+      card.style.transform = `perspective(800px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateY(-6px)`;
+    });
+  }, []);
+
+  const onMouseLeave = useCallback(() => {
+    if (frameRef.current) cancelAnimationFrame(frameRef.current);
+    const card = cardRef.current;
+    const glow = glowRef.current;
+    if (card) card.style.transform = '';
+    if (glow) glow.style.background = 'transparent';
+  }, []);
+
+  return (
+    <div
+      ref={cardRef}
+      onMouseMove={onMouseMove}
+      onMouseLeave={onMouseLeave}
+      className="service-card"
+    >
+      {/* Spotlight layer */}
+      <div ref={glowRef} className="service-card__glow" aria-hidden="true" />
+
+      {/* Top accent line — grows on hover via CSS */}
+      <div className="service-card__topline" aria-hidden="true" />
+
+      {/* Tier */}
+      <div className="label service-card__tier">{srv.tier}</div>
+
+      {/* Title */}
+      <h3 className="service-card__title">{srv.title}</h3>
+
+      {/* Subtitle */}
+      <p className="service-card__sub">{srv.subName}</p>
+
+      {/* Price */}
+      <div className="service-card__price">{srv.price}</div>
+
+      {/* Duration */}
+      <div className="service-card__duration">
+        <Clock size={11} />
+        <span className="label">{srv.duration}</span>
+      </div>
+
+      {/* Divider */}
+      <div className="service-card__divider" />
+
+      {/* Features */}
+      <ul className="service-card__features">
+        {srv.features.map((feat, idx) => (
+          <li key={idx} className="service-card__feature-item">
+            <Check size={13} strokeWidth={2.5} className="service-card__check" />
+            {feat}
+          </li>
+        ))}
+      </ul>
+
+      {/* CTA */}
+      <a href="#planner" className="service-card__cta">
+        <span className="service-card__cta-text">Pilih Paket</span>
+        <ArrowRight size={13} className="service-card__cta-arrow" />
+      </a>
+    </div>
+  );
+};
+
+/* ── Services section ────────────────────────────────────────────────────── */
 const Services = () => {
   return (
     <section id="services" className="section" style={{ background: 'var(--bg-secondary)' }}>
       <div className="container-grid">
 
-        {/* Editorial Header */}
         <header className="col-full section-header" data-reveal>
           <span className="label">01</span>
           <hr className="section-rule" />
           <span className="label">Paket Layanan</span>
         </header>
 
-        {/* Title block */}
-        <div className="col-left-7 mb-12">
+        <div className="col-left-7" style={{ marginBottom: 'var(--s12)' }}>
           <h2 className="headline" data-reveal>
             Investasi &amp; Layanan
             <br />
-            <span
-              style={{
-                fontFamily: 'var(--font-serif)',
-                fontWeight: 300,
-                fontStyle: 'italic',
-                color: 'var(--accent)',
-              }}
-            >
+            <span style={{ fontFamily: 'var(--font-serif)', fontWeight: 300, fontStyle: 'italic', color: 'var(--accent)' }}>
               yang transparan.
             </span>
           </h2>
-          <p className="body mt-4" data-reveal>
+          <p className="body" style={{ marginTop: 'var(--s4)' }} data-reveal>
             Setiap paket dirancang khusus untuk berbagai kebutuhan digital — dari usaha rintisan hingga perusahaan berkembang.
           </p>
         </div>
 
-        {/* Grid */}
         <div
-          className="col-full grid gap-4"
-          style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))' }}
+          className="col-full grid"
+          style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: 'var(--s4)' }}
           data-reveal
         >
-          {servicesList.map((srv, index) => (
-            <div
-              key={index}
-              className="card flex flex-col p-6 group"
-              style={{ transition: 'border-color 0.4s, transform 0.4s' }}
-            >
-              {/* Tier number */}
-              <div
-                className="label mb-4"
-                style={{ color: 'var(--accent)', letterSpacing: '0.1em' }}
-              >
-                {srv.tier}
-              </div>
-
-              <h3
-                style={{
-                  fontFamily: 'var(--font-display)',
-                  fontWeight: 700,
-                  fontSize: '1.05rem',
-                  color: 'var(--text-primary)',
-                  marginBottom: '0.25rem',
-                  letterSpacing: '-0.01em',
-                }}
-              >
-                {srv.title}
-              </h3>
-              <p
-                style={{
-                  fontFamily: 'var(--font-body)',
-                  fontSize: '0.75rem',
-                  color: 'var(--text-muted)',
-                  marginBottom: '1.25rem',
-                }}
-              >
-                {srv.subName}
-              </p>
-
-              {/* Price */}
-              <div
-                style={{
-                  fontFamily: 'var(--font-display)',
-                  fontWeight: 700,
-                  fontSize: '1.15rem',
-                  color: 'var(--text-primary)',
-                  marginBottom: '0.5rem',
-                  letterSpacing: '-0.015em',
-                }}
-              >
-                {srv.price}
-              </div>
-
-              {/* Duration */}
-              <div className="flex items-center gap-1.5 mb-5">
-                <Clock size={11} style={{ color: 'var(--text-muted)' }} />
-                <span className="label">{srv.duration}</span>
-              </div>
-
-              {/* Divider */}
-              <div style={{ height: '1px', background: 'var(--border)', marginBottom: '1.25rem' }} />
-
-              {/* Features */}
-              <ul className="flex flex-col gap-2.5 grow mb-6">
-                {srv.features.map((feat, idx) => (
-                  <li
-                    key={idx}
-                    className="flex items-start gap-2"
-                    style={{
-                      fontFamily: 'var(--font-body)',
-                      fontSize: '0.78rem',
-                      color: 'var(--text-secondary)',
-                      lineHeight: '1.4',
-                    }}
-                  >
-                    <Check
-                      size={13}
-                      strokeWidth={2.5}
-                      style={{ color: 'var(--accent)', flexShrink: 0, marginTop: '0.15rem' }}
-                    />
-                    {feat}
-                  </li>
-                ))}
-              </ul>
-
-              <a
-                href="#planner"
-                className="btn--ghost"
-                style={{ fontSize: '0.75rem', padding: '0.6em 1.4em', justifyContent: 'center' }}
-              >
-                Pilih Paket
-              </a>
-            </div>
+          {servicesList.map((srv, i) => (
+            <ServiceCard key={i} srv={srv} />
           ))}
         </div>
 
