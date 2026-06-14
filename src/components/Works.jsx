@@ -7,10 +7,10 @@ const projects = [
   {
     id: 1,
     title: "Kolaborasi Ardata",
-    category: "Company Profile", subcategory: "Teknologi",
-    categoryKey: "Company Profile",
+    category: "Landing Page", subcategory: "Colaboration Platform",
+    categoryKey: "Landing Page",
     year: "2025",
-    techs: ["React", "API", "Dashboard"],
+    techs: ["WordPress", "Elementor", "PHP"],
     gradient: "linear-gradient(135deg, #0d2818 0%, #1a4d2e 100%)",
     thumbnail: "/images/projects/porto10.png",
     link: "https://kolaborasi.ardata.co.id/"
@@ -18,10 +18,10 @@ const projects = [
   {
     id: 2,
     title: "Optik Pandanaran",
-    category: "Company Profile", subcategory: "Kesehatan & Optik",
+    category: "Company Profile", subcategory: "Kesehatan & Retail",
     categoryKey: "Company Profile",
     year: "2025",
-    techs: ["WordPress", "PHP", "MySQL"],
+    techs: ["WordPress", "PHP", "Elementor"],
     gradient: "linear-gradient(135deg, #1a1226 0%, #3d2459 100%)",
     thumbnail: "/images/projects/porto11.png",
     link: "https://optikpandanaran.com/"
@@ -29,10 +29,10 @@ const projects = [
   {
     id: 3,
     title: "Cogmap Brainfit",
-    category: "Company Profile", subcategory: "Bimbel Anak",
-    categoryKey: "Company Profile",
+    category: "Landing Page", subcategory: "Health & Parenting",
+    categoryKey: "Landing Page",
     year: "2025",
-    techs: ["React", "Chart.js", "API"],
+    techs: ["HTML", "CSS", "Vanila JS"],
     gradient: "linear-gradient(135deg, #111827 0%, #1e2d40 100%)",
     thumbnail: "/images/projects/porto9.png",
     link: "https://cogmap.brainfitonline.co.id/"
@@ -40,8 +40,8 @@ const projects = [
   {
     id: 4,
     title: "Widya Medika",
-    category: "Company Profile", subcategory: "Alat Kesehatan",
-    categoryKey: "Company Profile",
+    category: "Landing Page", subcategory: "Education (Bimbel)",
+    categoryKey: "Landing Page",
     year: "2025",
     techs: ["WordPress", "CSS", "JavaScript"],
     gradient: "linear-gradient(135deg, #0c1929 0%, #162840 100%)",
@@ -51,10 +51,10 @@ const projects = [
   {
     id: 5,
     title: "Rumah Binlat Official",
-    category: "Company Profile", subcategory: "Pendidikan",
-    categoryKey: "Company Profile",
+    category: "Landing Page", subcategory: "Education (Try-out)",
+    categoryKey: "Landing Page",
     year: "2025",
-    techs: ["WordPress", "Elementor", "WooCommerce"],
+    techs: ["WordPress", "Elementor", "PHP"],
     gradient: "linear-gradient(135deg, #1a0f2e 0%, #3d1f5c 100%)",
     thumbnail: "/images/projects/porto12.png",
     link: "https://rumahbinlatofficial.com/"
@@ -62,10 +62,10 @@ const projects = [
   {
     id: 6,
     title: "KTA Perwakab Batam",
-    category: "Company Profile", subcategory: "Manajemen Keanggotaan",
+    category: "Company Profile", subcategory: "Web App Membership System",
     categoryKey: "Company Profile",
     year: "2025",
-    techs: ["PHP", "Laravel", "MySQL"],
+    techs: ["Vue.js", "PHP", "MySQL"],
     gradient: "linear-gradient(135deg, #0f1a1a 0%, #1e3d3d 100%)",
     thumbnail: "/images/projects/porto7.png",
     link: "https://kta.perwakabbatam.com/login"
@@ -84,10 +84,10 @@ const projects = [
   {
     id: 8,
     title: "AGPAII Digital",
-    category: "Company Profile", subcategory: "Manajemen Keanggotaan",
+    category: "Company Profile", subcategory: "Web App Manajemen Keanggotaan",
     categoryKey: "Company Profile",
     year: "2025",
-    techs: ["React", "Node.js", "MongoDB"],
+    techs: ["React", "Node.js", "Next.js"],
     gradient: "linear-gradient(135deg, #0f1a29 0%, #1e3d5c 100%)",
     thumbnail: "/images/projects/porto6.png",
     link: "https://web.agpaiidigital.org/getting-started"
@@ -95,10 +95,10 @@ const projects = [
   {
     id: 9,
     title: "Sertifikasi Kadin Jateng",
-    category: "Landing Page", subcategory: "Sertifikasi",
-    categoryKey: "Web App",
+    category: "Landing Page", subcategory: "Layanan Sertifikasi",
+    categoryKey: "Landing Page",
     year: "2025",
-    techs: ["Laravel", "Bootstrap", "MySQL"],
+    techs: ["Next.js", "React", "Tailwind"],
     gradient: "linear-gradient(135deg, #1a0f0f 0%, #3d1e1e 100%)",
     thumbnail: "/images/projects/porto5.png",
     link: "https://sertifikasi.kadinjateng.com/"
@@ -106,10 +106,10 @@ const projects = [
   {
     id: 10,
     title: "GAMA College",
-    category: "Company Profile", subcategory: "Pendidikan",
-    categoryKey: "Company Profile",
+    category: "Landing Page", subcategory: "Education (Bimbel)",
+    categoryKey: "Landing Page",
     year: "2025",
-    techs: ["WordPress", "Custom Theme", "SEO"],
+    techs: ["WordPress", "Elementor", "PHP"],
     gradient: "linear-gradient(135deg, #0f291a 0%, #1e5c3d 100%)",
     thumbnail: "/images/projects/porto13.png",
     link: "https://gama-college.com/"
@@ -117,10 +117,10 @@ const projects = [
   {
     id: 11,
     title: "Neura Web Apps",
-    category: "Web App", subcategory: "Konsultasi Kesehatan",
-    categoryKey: "Web App",
+    category: "Landing Page", subcategory: "Web App Konsultasi Kesehatan",
+    categoryKey: "Landing Page",
     year: "2025",
-    techs: ["React", "Vercel", "API"],
+    techs: ["Next.js", "tailwind", "React"],
     gradient: "linear-gradient(135deg, #1a0f29 0%, #3d1e5c 100%)",
     thumbnail: "/images/projects/porto2.png",
     link: "https://neura-webapps.vercel.app"
@@ -128,10 +128,10 @@ const projects = [
   {
     id: 12,
     title: "Tekodeko",
-    category: "Landing Page", subcategory: "",
+    category: "Landing Page", subcategory: "F&B Cafe",
     categoryKey: "Landing Page",
     year: "2025",
-    techs: ["Next.js", "Tailwind", "Vercel"],
+    techs: ["Next.js", "Tailwind", "React"],
     gradient: "linear-gradient(135deg, #0f1a29 0%, #1e3d5c 100%)",
     thumbnail: "/images/projects/porto4.png",
     link: "https://tekodeko.vercel.app"
@@ -139,10 +139,10 @@ const projects = [
   {
     id: 13,
     title: "Portfolio Website",
-    category: "Landing Page", subcategory: "Personal Branding",
-    categoryKey: "Landing Page",
+    category: "Portfolio", subcategory: "Personal Branding",
+    categoryKey: "Portfolio",
     year: "2025",
-    techs: ["React", "GSAP", "Vercel"],
+    techs: ["React", "GSAP", "Three.js"],
     gradient: "linear-gradient(135deg, #1a1a0f 0%, #3d3d1e 100%)",
     thumbnail: "/images/projects/porto1.png",
     link: "https://site-checker-five.vercel.app"
@@ -150,10 +150,10 @@ const projects = [
   {
     id: 14,
     title: "Sitecheck",
-    category: "Web App", subcategory: "Developer Tools",
-    categoryKey: "Web App",
+    category: "Landing Page", subcategory: "SaaS Developer Tools",
+    categoryKey: "Landing Page",
     year: "2025",
-    techs: ["Laravel", "MySQL", "Bootstrap"],
+    techs: ["Next.js", "Tailwind", "React"],
     gradient: "linear-gradient(135deg, #0d2818 0%, #1a4d2e 100%)",
     thumbnail: "/images/projects/porto3.png",
     link: "https://magang.ardata.co.id"
