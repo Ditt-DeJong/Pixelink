@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -10,71 +12,67 @@ img, video { max-width: 100%; display: block; }
 a { color: inherit; text-decoration: none; }
 
 /* ==========================================
-   DESIGN TOKENS
+   DESIGN TOKENS — Kabin Code
+   Warm earthy brown — warna kayu, hangat, terpercaya
    ========================================== */
 :root {
-  /* ── Colors ── */
-  --bg-primary:      #080808;
-  --bg-secondary:    #0e0e0e;
-  --bg-surface:      #141414;
-  --bg-card:         #1a1a1a;
+  /* ── Backgrounds — krem & linen hangat ── */
+  --bg-primary:     #faf7f3;   /* linen warm */
+  --bg-secondary:   #f2ece3;   /* slightly darker linen */
+  --bg-surface:     #fdfcfa;   /* near-white warm */
+  --bg-card:        #fdfcfa;
 
-  /* Warm text — NOT pure white */
-  --text-primary:    #ede9e1;
-  --text-secondary:  #9a9490;
-  --text-muted:      #4a4743;
+  /* ── Text ── */
+  --text-primary:   #1e130a;   /* coklat sangat gelap, bukan hitam murni */
+  --text-secondary: #5a4535;   /* coklat medium */
+  --text-muted:     #a08870;   /* pasir coklat muda */
 
-  /* Accent: warm citron + copper tone */
-  --accent:          #c8f135;      /* electric lime-green */
-  --accent-warm:     #f0c56e;      /* soft gold */
-  --accent-dim:      rgba(200,241,53,0.08);
-  --accent-glow:     rgba(200,241,53,0.25);
+  /* ── Accent: coklat tua logo ── */
+  --accent:         #4a2e0f;   /* warna dominan logo */
+  --accent-mid:     #3a220a;   /* lebih gelap untuk hover */
+  --accent-light:   #f0e5d4;   /* krem hangat untuk bg selected */
+  --accent-dim:     rgba(74, 46, 15, 0.08);
+  --accent-glow:    rgba(74, 46, 15, 0.18);
 
-  --border:          rgba(255,255,255,0.07);
-  --border-hover:    rgba(255,255,255,0.15);
+  /* ── Aksen sekunder: gold hangat (warna teks "Code" di logo) ── */
+  --accent-warm:    #c8913a;
+  --accent-warm-dim: rgba(200, 145, 58, 0.10);
+
+  --border:         rgba(74, 46, 15, 0.10);
+  --border-hover:   rgba(74, 46, 15, 0.22);
+  --border-accent:  rgba(74, 46, 15, 0.30);
 
   /* ── Typography ── */
-  /* Plus Jakarta Sans: headings and UI */
-  --font-display: 'Plus Jakarta Sans', system-ui, sans-serif;
-  /* Plus Jakarta Sans lighter weight: body copy */
-  --font-body:    'Plus Jakarta Sans', system-ui, sans-serif;
-  /* Fraunces: editorial serif accent */
-  --font-serif:   'Fraunces', Georgia, serif;
-  /* JetBrains Mono: labels and metadata */
+  --font-display: 'Inter', system-ui, sans-serif;
+  --font-body:    'Inter', system-ui, sans-serif;
+  --font-serif:   'Playfair Display', Georgia, serif;
   --font-mono:    'JetBrains Mono', 'Courier New', monospace;
 
   /* ── Motion ── */
-  --ease-out-expo:   cubic-bezier(0.19, 1.0, 0.22, 1.0);
-  --ease-out-quart:  cubic-bezier(0.25, 1.0, 0.5, 1.0);
-  --ease-in-out:     cubic-bezier(0.76, 0, 0.24, 1);
-  --ease-spring:     cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-out-expo:  cubic-bezier(0.19, 1.0, 0.22, 1.0);
+  --ease-out-quart: cubic-bezier(0.25, 1.0, 0.5, 1.0);
+  --ease-in-out:    cubic-bezier(0.76, 0, 0.24, 1);
+  --ease-spring:    cubic-bezier(0.34, 1.56, 0.64, 1);
 
   /* ── Spacing — 4px base grid ── */
-  /* s1=4  s2=8  s3=12  s4=16  s5=20  s6=24
-     s8=32  s10=40  s12=48  s16=64  s20=80
-     s24=96  s32=128  s40=160  s48=192       */
-  --s1:  0.25rem;   /*  4px */
-  --s2:  0.5rem;    /*  8px */
-  --s3:  0.75rem;   /* 12px */
-  --s4:  1rem;      /* 16px */
-  --s5:  1.25rem;   /* 20px */
-  --s6:  1.5rem;    /* 24px */
-  --s8:  2rem;      /* 32px */
-  --s9:  2.25rem;
-  --s10: 2.5rem;    /* 40px */
-  --s12: 3rem;      /* 48px */
-  --s16: 4rem;      /* 64px */
-  --s20: 5rem;      /* 80px */
-  --s24: 6rem;      /* 96px */
-  --s32: 8rem;      /* 128px */
-  --s40: 10rem;     /* 160px */
+  --s1:  0.25rem;  /*  4px */
+  --s2:  0.5rem;   /*  8px */
+  --s3:  0.75rem;  /* 12px */
+  --s4:  1rem;     /* 16px */
+  --s5:  1.25rem;  /* 20px */
+  --s6:  1.5rem;   /* 24px */
+  --s8:  2rem;     /* 32px */
+  --s10: 2.5rem;   /* 40px */
+  --s12: 3rem;     /* 48px */
+  --s16: 4rem;     /* 64px */
+  --s20: 5rem;     /* 80px */
+  --s24: 6rem;     /* 96px */
+  --s32: 8rem;     /* 128px */
 
-  /* Section padding — responsive, snaps to 4px grid */
-  --section-py:      clamp(var(--s16), 8vw, var(--s24));  /* 64–96px  */
-  --section-gap:     var(--s12);                           /* 48px     */
-  --container-px:    clamp(var(--s6), 4vw, var(--s16));   /* 24–64px  */
-  --card-p:          var(--s6);                            /* 24px     */
-  --card-p-lg:       var(--s8);                            /* 32px     */
+  --section-py:   clamp(var(--s16), 8vw, var(--s24));
+  --container-px: clamp(var(--s6), 4vw, var(--s16));
+  --card-p:       var(--s6);
+  --card-p-lg:    var(--s8);
 }
 
 /* ==========================================
@@ -91,7 +89,7 @@ html {
 
 body {
   overflow-x: hidden;
-  line-height: 1.6;
+  line-height: 1.65;
   background-color: var(--bg-primary);
   color: var(--text-primary);
   cursor: none;
@@ -100,52 +98,35 @@ body {
 a, button, label, [role="button"] { cursor: none; }
 
 /* ==========================================
-   TYPOGRAPHY SCALE
-   The key issue was text being too large.
-   These are now comfortable, readable sizes.
+   TYPOGRAPHY
    ========================================== */
-
-/* Hero title — large but not absurd */
 .display {
   font-family: var(--font-display);
-  font-size: clamp(2.6rem, 6vw, 6.5rem);
-  font-weight: 800;
-  line-height: 1.0;
+  font-size: clamp(2.8rem, 6vw, 6rem);
+  font-weight: 700;
+  line-height: 1.05;
   letter-spacing: -0.03em;
   color: var(--text-primary);
 }
 
-/* Section heading */
 .headline {
   font-family: var(--font-display);
-  font-size: clamp(1.8rem, 3.5vw, 3.2rem);
-  font-weight: 700;
-  line-height: 1.1;
+  font-size: clamp(1.75rem, 3.5vw, 3rem);
+  font-weight: 600;
+  line-height: 1.15;
   letter-spacing: -0.025em;
   color: var(--text-primary);
 }
 
-/* Subheading */
-.subheading {
-  font-family: var(--font-display);
-  font-size: clamp(1.1rem, 2vw, 1.5rem);
-  font-weight: 500;
-  line-height: 1.3;
-  letter-spacing: -0.01em;
-  color: var(--text-secondary);
-}
-
-/* Body copy */
 .body {
   font-family: var(--font-body);
-  font-size: clamp(0.875rem, 1.1vw, 1rem);
+  font-size: clamp(0.9rem, 1.1vw, 1.05rem);
   line-height: 1.75;
   font-weight: 400;
   color: var(--text-secondary);
   max-width: 58ch;
 }
 
-/* Metadata / labels */
 .label {
   font-family: var(--font-mono);
   font-size: 0.65rem;
@@ -155,23 +136,15 @@ a, button, label, [role="button"] { cursor: none; }
   color: var(--text-muted);
 }
 
-/* Serif italic accent (Fraunces) */
-.serif-accent {
-  font-family: var(--font-serif);
-  font-weight: 300;
-  font-style: italic;
-  color: var(--accent);
-}
-
 /* ==========================================
    LAYOUT GRID
    ========================================== */
 .container-grid {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
-  column-gap: clamp(var(--s4), 1.5vw, var(--s6));  /* 16–24px */
+  column-gap: clamp(var(--s4), 1.5vw, var(--s6));
   padding: 0 var(--container-px);
-  max-width: 1400px;
+  max-width: 1360px;
   margin: 0 auto;
   width: 100%;
 }
@@ -185,7 +158,6 @@ a, button, label, [role="button"] { cursor: none; }
 .col-center-6 { grid-column: 4 / 10; }
 
 .section { padding: var(--section-py) 0; }
-.bg-secondary { background: var(--bg-secondary); }
 
 @media (max-width: 768px) {
   .col-left-8, .col-right-4,
@@ -194,13 +166,13 @@ a, button, label, [role="button"] { cursor: none; }
 }
 
 /* ==========================================
-   EDITORIAL HEADER
+   SECTION HEADER (editorial divider)
    ========================================== */
 .section-header {
   display: flex;
   align-items: center;
-  gap: var(--s4);        /* 16px */
-  margin-bottom: var(--s6);  /* 24px */
+  gap: var(--s4);
+  margin-bottom: var(--s6);
 }
 .section-rule {
   flex: 1;
@@ -210,190 +182,157 @@ a, button, label, [role="button"] { cursor: none; }
 }
 
 /* ==========================================
-   BUTTON
+   BUTTONS
    ========================================== */
 .btn--primary {
   display: inline-flex;
   align-items: center;
-  gap: var(--s2);             /* 8px */
-  padding: var(--s3) var(--s6); /* 12px 24px */
+  gap: var(--s2);
+  padding: var(--s3) var(--s6);
   background: var(--accent);
-  color: #0a0a0a;
+  color: #ffffff;
   border: 1px solid var(--accent);
   border-radius: 6px;
   font-family: var(--font-display);
-  font-size: 0.82rem;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  transition: background 0.3s var(--ease-out-quart), color 0.3s;
+  font-size: 0.84rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  transition: background 0.25s var(--ease-out-quart),
+              box-shadow 0.25s ease;
 }
 .btn--primary:hover {
-  background: transparent;
-  color: var(--accent);
+  background: var(--accent-mid);
+  box-shadow: 0 4px 16px rgba(29, 52, 97, 0.25);
 }
 
 .btn--ghost {
   display: inline-flex;
   align-items: center;
-  gap: var(--s2);             /* 8px */
-  padding: var(--s3) var(--s6); /* 12px 24px */
+  gap: var(--s2);
+  padding: var(--s3) var(--s6);
   background: transparent;
   color: var(--text-primary);
   border: 1px solid var(--border-hover);
   border-radius: 6px;
   font-family: var(--font-display);
-  font-size: 0.82rem;
+  font-size: 0.84rem;
   font-weight: 500;
-  letter-spacing: 0.02em;
-  transition: border-color 0.3s var(--ease-out-quart), color 0.3s;
+  letter-spacing: 0.01em;
+  transition: border-color 0.25s ease, color 0.25s ease;
 }
 .btn--ghost:hover {
-  border-color: var(--text-primary);
-  color: var(--text-primary);
-}
-
-.btn--creative {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--s2);             /* 8px */
-  padding: var(--s3) var(--s6); /* 12px 24px */
-  border: 1px solid var(--border-hover);
-  border-radius: 6px;
-  font-family: var(--font-display);
-  font-size: 0.82rem;
-  font-weight: 500;
-  letter-spacing: 0.02em;
-  transition: border-color 0.3s, color 0.3s, background 0.3s;
-}
-.btn--creative:hover {
   border-color: var(--accent);
   color: var(--accent);
 }
 
-/* ==========================================
-   REVEAL ANIMATIONS (GSAP targets)
-   ========================================== */
-[data-reveal] {
-  opacity: 0;
-  transform: translateY(28px);
+.btn--outline {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s2);
+  padding: var(--s3) var(--s6);
+  background: transparent;
+  color: var(--accent);
+  border: 1px solid var(--border-accent);
+  border-radius: 6px;
+  font-family: var(--font-display);
+  font-size: 0.84rem;
+  font-weight: 500;
+  transition: background 0.25s ease, color 0.25s ease;
+}
+.btn--outline:hover {
+  background: var(--accent-dim);
 }
 
 /* ==========================================
-   CARD (generic)
+   CARD
    ========================================== */
 .card {
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 10px;
-  transition: border-color 0.4s var(--ease-out-quart),
-              transform 0.4s var(--ease-out-quart);
+  border-radius: 12px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 .card:hover {
   border-color: var(--border-hover);
-  transform: translateY(-4px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.06);
 }
 
 /* ==========================================
-   SERVICE CARD  (with spotlight + tilt)
+   SERVICE CARD
    ========================================== */
 .service-card {
   position: relative;
   display: flex;
   flex-direction: column;
-  padding: var(--card-p);               /* 24px */
+  padding: var(--card-p);
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 10px;
+  border-radius: 12px;
   overflow: hidden;
-  /* GPU layer — tilt runs on transform */
   will-change: transform;
   transition:
-    border-color 0.35s var(--ease-out-quart),
-    box-shadow   0.35s var(--ease-out-quart),
-    transform    0.5s  var(--ease-out-expo);
+    border-color 0.3s ease,
+    box-shadow   0.3s ease,
+    transform    0.4s var(--ease-out-expo);
 }
-
 .service-card:hover {
-  border-color: rgba(200, 241, 53, 0.35);
-  box-shadow:
-    0 0 0 1px rgba(200,241,53,0.08),
-    0 16px 48px rgba(0,0,0,0.5),
-    0 4px  16px rgba(200,241,53,0.06);
+  border-color: var(--border-accent);
+  box-shadow: 0 12px 40px rgba(29, 52, 97, 0.10);
+  transform: translateY(-4px);
 }
 
-/* Cursor spotlight — position set via JS */
 .service-card__glow {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  transition: background 0.1s ease;
-  border-radius: inherit;
+  display: none; /* tidak dipakai di light theme */
 }
 
-/* Top accent bar — slides in from left on hover */
 .service-card__topline {
   position: absolute;
   top: 0; left: 0;
-  height: 2px;
+  height: 3px;
   width: 0%;
   background: var(--accent);
-  border-radius: 0 2px 0 0;
-  transition: width 0.45s var(--ease-out-expo);
+  border-radius: 0 3px 0 0;
+  transition: width 0.4s var(--ease-out-expo);
   z-index: 2;
 }
 .service-card:hover .service-card__topline { width: 100%; }
 
-/* All direct content sits above glow layer */
 .service-card > *:not(.service-card__glow):not(.service-card__topline) {
   position: relative;
   z-index: 1;
 }
 
-/* Tier label */
 .service-card__tier {
   color: var(--accent);
-  letter-spacing: 0.1em;
+  letter-spacing: 0.12em;
   margin-bottom: var(--s4);
-  transition: letter-spacing 0.3s ease;
 }
-.service-card:hover .service-card__tier { letter-spacing: 0.2em; }
 
-/* Title */
 .service-card__title {
   font-family: var(--font-display);
-  font-weight: 700;
+  font-weight: 600;
   font-size: 1.05rem;
   color: var(--text-primary);
   margin-bottom: var(--s1);
   letter-spacing: -0.01em;
-  transition: color 0.25s ease;
 }
-.service-card:hover .service-card__title { color: #fff; }
 
-/* Subtitle */
 .service-card__sub {
   font-family: var(--font-body);
-  font-size: 0.75rem;
+  font-size: 0.78rem;
   color: var(--text-muted);
   margin-bottom: var(--s5);
-  transition: color 0.25s ease;
 }
-.service-card:hover .service-card__sub { color: var(--text-secondary); }
 
-/* Price */
 .service-card__price {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 1.15rem;
-  color: var(--text-primary);
+  font-size: 1.2rem;
+  color: var(--accent);
   margin-bottom: var(--s2);
-  letter-spacing: -0.015em;
-  transition: color 0.25s ease;
+  letter-spacing: -0.02em;
 }
-.service-card:hover .service-card__price { color: var(--accent); }
 
-/* Duration */
 .service-card__duration {
   display: flex;
   align-items: center;
@@ -401,20 +340,13 @@ a, button, label, [role="button"] { cursor: none; }
   margin-bottom: var(--s5);
   color: var(--text-muted);
 }
-.service-card__duration .label { transition: color 0.25s; }
-.service-card:hover .service-card__duration .label { color: var(--text-secondary); }
-.service-card:hover .service-card__duration svg { color: var(--accent-warm); }
 
-/* Divider */
 .service-card__divider {
   height: 1px;
   background: var(--border);
   margin-bottom: var(--s5);
-  transition: background 0.35s ease;
 }
-.service-card:hover .service-card__divider { background: rgba(200,241,53,0.15); }
 
-/* Features */
 .service-card__features {
   list-style: none;
   display: flex;
@@ -429,93 +361,60 @@ a, button, label, [role="button"] { cursor: none; }
   align-items: flex-start;
   gap: var(--s2);
   font-family: var(--font-body);
-  font-size: 0.78rem;
+  font-size: 0.82rem;
   color: var(--text-secondary);
-  line-height: 1.4;
-  transition: color 0.25s ease, transform 0.25s ease;
+  line-height: 1.45;
+  transition: color 0.2s ease;
 }
-
-/* Stagger each item slightly on hover using nth-child */
-.service-card:hover .service-card__feature-item:nth-child(1) { transition-delay: 0.00s; }
-.service-card:hover .service-card__feature-item:nth-child(2) { transition-delay: 0.03s; }
-.service-card:hover .service-card__feature-item:nth-child(3) { transition-delay: 0.06s; }
-.service-card:hover .service-card__feature-item:nth-child(4) { transition-delay: 0.09s; }
-.service-card:hover .service-card__feature-item:nth-child(5) { transition-delay: 0.12s; }
-
 .service-card:hover .service-card__feature-item {
   color: var(--text-primary);
-  transform: translateX(4px);
 }
 
 .service-card__check {
   color: var(--accent);
   flex-shrink: 0;
   margin-top: 0.15rem;
-  transition: transform 0.25s var(--ease-spring);
 }
-.service-card:hover .service-card__check { transform: scale(1.3); }
 
-/* CTA button */
 .service-card__cta {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: var(--s2);
   padding: var(--s3) var(--s6);
-  background: transparent;
-  color: var(--text-secondary);
-  border: 1px solid var(--border-hover);
+  background: var(--accent-dim);
+  color: var(--accent);
+  border: 1px solid var(--border-accent);
   border-radius: 6px;
   font-family: var(--font-display);
-  font-size: 0.75rem;
-  font-weight: 500;
-  letter-spacing: 0.02em;
-  overflow: hidden;
-  position: relative;
-  transition:
-    border-color 0.3s ease,
-    box-shadow   0.3s ease;
+  font-size: 0.78rem;
+  font-weight: 600;
+  transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
 }
-
-/* Sweep fill */
-.service-card__cta::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: var(--accent);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.35s var(--ease-out-expo);
-  z-index: 0;
-}
-.service-card:hover .service-card__cta::before { transform: scaleX(1); }
-
 .service-card:hover .service-card__cta {
+  background: var(--accent);
+  color: #ffffff;
   border-color: var(--accent);
-  box-shadow: 0 0 16px rgba(200,241,53,0.25);
 }
 
-/* Text span — above sweep layer */
 .service-card__cta-text {
   position: relative;
-  z-index: 1;
-  color: var(--text-secondary);
-  transition: color 0.25s ease;
 }
-.service-card:hover .service-card__cta-text { color: #0a0a0a; }
-
-/* Arrow — above sweep layer, vertically centered via flex */
 .service-card__cta-arrow {
-  position: relative;
-  z-index: 1;
   display: flex;
   align-items: center;
-  color: var(--text-secondary);
-  transition: color 0.25s ease, transform 0.3s var(--ease-spring);
+  transition: transform 0.25s var(--ease-spring);
 }
 .service-card:hover .service-card__cta-arrow {
-  color: #0a0a0a;
   transform: translateX(4px);
+}
+
+/* ==========================================
+   REVEAL ANIMATIONS (GSAP)
+   ========================================== */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(20px);
 }
 
 /* ==========================================
@@ -525,38 +424,23 @@ a, button, label, [role="button"] { cursor: none; }
   position: fixed;
   top: 0; left: 0;
   width: 28px; height: 28px;
-  border: 1px solid rgba(255, 255, 255, 0.35);
+  border: 1.5px solid rgba(45, 90, 61, 0.45);
   border-radius: 50%;
   pointer-events: none;
   z-index: 9999;
-  mix-blend-mode: difference;
   will-change: transform;
-  transition: width 0.3s, height 0.3s;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    transition-duration: 0.01ms !important;
-  }
+  background: rgba(45, 90, 61, 0.05);
 }
 
 /* ==========================================
-   PERFORMANCE OPTIMIZATIONS
+   PERFORMANCE
    ========================================== */
-
-/* GPU layer untuk elemen yang sering ditransform */
 .custom-cursor { will-change: transform; }
-
-/* Content-visibility: skip off-screen section rendering */
 #services { content-visibility: auto; contain-intrinsic-size: 0 1100px; }
 #works    { content-visibility: auto; contain-intrinsic-size: 0 1600px; }
 #planner  { content-visibility: auto; contain-intrinsic-size: 0 1000px; }
+img       { max-width: 100%; height: auto; display: block; }
 
-/* Cegah layout shift pada semua gambar */
-img { max-width: 100%; height: auto; display: block; }
-
-/* Smooth scroll — hanya aktif jika user tidak prefer reduced motion */
 @media (prefers-reduced-motion: no-preference) {
   html { scroll-behavior: smooth; }
 }
@@ -567,9 +451,5 @@ img { max-width: 100%; height: auto; display: block; }
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-  /* Langsung tampilkan elemen reveal agar tidak stuck hidden */
-  [data-reveal] {
-    opacity: 1 !important;
-    transform: none !important;
-  }
+  [data-reveal] { opacity: 1 !important; transform: none !important; }
 }
