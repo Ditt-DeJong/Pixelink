@@ -3,40 +3,102 @@ import { createPortal } from 'react-dom';
 import { Check, Clock, ArrowRight, X, ChevronRight } from 'lucide-react';
 
 const servicesList = [
-  {
-    tier: "01",
-    title: "Undangan Digital",
-    subName: "Pernikahan & Acara Spesial",
-    price: "Rp 75rb – 200rb",
-    duration: "2–3 Hari",
-    features: ["1 halaman animasi premium", "Formulir RSVP interaktif", "Notifikasi WhatsApp", "Desain responsif", "Hosting & SSL"],
-    detail: {
-      description: "Undangan digital elegan yang memukau tamu Anda sejak detik pertama dibuka. Dibangun dengan animasi halus dan formulir RSVP yang terintegrasi langsung ke WhatsApp Anda.",
-      includes: [
-        { label: "Desain & Animasi", items: ["1 halaman full animasi", "Tema custom sesuai konsep acara", "Foto & video galeri opsional", "Musik latar opsional", "Countdown timer hari H"] },
-        { label: "Fungsionalitas", items: ["Formulir RSVP interaktif", "Notifikasi konfirmasi ke WhatsApp", "Peta lokasi Google Maps", "Tombol simpan ke kalender", "Link berbagi mudah"] },
-        { label: "Teknis", items: ["Hosting aktif 6 bulan", "SSL sertifikat termasuk", "Loading cepat & mobile-first", "1x revisi desain"] },
-      ],
-      note: "Cocok untuk pernikahan, ulang tahun, wisuda, reuni, dan acara spesial lainnya.",
-    }
+{
+  tier: "01",
+  title: "Undangan Digital",
+  price: "Mulai dari Rp 99rb",
+  duration: "2–3 Hari",
+  features: [
+    "1 halaman desain premium",
+    "RSVP 1-Klik ke WhatsApp",
+    "Buku tamu & ucapan digital",
+    "Desain responsif",
+    "Hosting & SSL gratis (aktif 1 tahun)"
+  ],
+  detail: {
+    includes: [
+      { label: "Desain", items: [
+        "Kustomisasi warna & font sesuai tema acara",
+        "Foto & video galeri",
+        "Countdown timer"
+      ]},
+      { label: "Fungsionalitas", items: [
+        "Form RSVP → 1-klik kirim ke WhatsApp",
+        "Buku tamu digital (ucapan & doa)",
+        "Peta lokasi Google Maps",
+        "Tombol simpan ke kalender",
+      ]},
+      { label: "Layanan", items: [
+        "2x revisi desain",
+        "Emergency edit gratis sampai H-3",
+        "Domain custom .my.id"
+      ]}
+    ],
+    note: "Cocok untuk pernikahan, ulang tahun, wisuda, reuni, dan acara spesial lainnya. *Hosting selamanya selama layanan Kabin Code tersedia."
+  }
+},
+{
+  tier: "02",
+  title: "Landing Page",
+  subName: "Bisnis & Personal Branding",
+  price: "Mulai Rp 1.099.000",
+  duration: "3–5 Hari",
+  features: [
+    "4–6 seksi konten terstruktur",
+    "CMS — edit konten sendiri",
+    "Domain .com (1 tahun)",
+    "Hosting + SSL (1 tahun)",
+    "SEO dasar & Google Analytics",
+  ],
+  detail: {
+    description:
+      "Halaman pemasaran satu tujuan yang dirancang untuk mengubah pengunjung menjadi pelanggan. Dilengkapi CMS agar Anda bisa memperbarui konten kapan saja tanpa perlu bantuan developer.",
+    includes: [
+      {
+        label: "Struktur Halaman",
+        items: [
+          "4–6 seksi konten terstruktur",
+          "Hero section yang menarik perhatian",
+          "Seksi layanan / produk",
+          "Testimoni / social proof",
+          "Seksi FAQ",
+          "Call-to-Action yang jelas",
+        ],
+      },
+      {
+        label: "Integrasi",
+        items: [
+          "Tombol WhatsApp float",
+          "Formulir kontak",
+          "Google Analytics",
+          "Facebook Pixel (opsional)",
+          "Instagram feed (opsional)",
+        ],
+      },
+      {
+        label: "Teknis & Infrastruktur",
+        items: [
+          "Domain .com (1 tahun, atas nama klien)",
+          "Hosting NVMe SSD (1 tahun)",
+          "SSL gratis (HTTPS)",
+          "Loading < 3 detik",
+          "Mobile responsive",
+          "CMS — kelola konten sendiri tanpa coding",
+        ],
+      },
+      {
+        label: "Layanan & Garansi",
+        items: [
+          "2x revisi konten & desain",
+          "SEO dasar (meta title, deskripsi, sitemap)",
+          "Dukungan teknis gratis 7 hari setelah live",
+          "Akun hosting & domain diserahkan ke klien",
+        ],
+      },
+    ],
+    note: "Ideal untuk usaha baru, peluncuran produk, promo event, atau personal branding profesional. *Perpanjangan hosting + domain tahun berikutnya Rp 500.000/tahun.",
   },
-  {
-    tier: "02",
-    title: "Landing Page",
-    subName: "Bisnis & Personal Branding",
-    price: "Rp 400rb – 800rb",
-    duration: "3–5 Hari",
-    features: ["4–6 seksi konten", "Tombol CTA & kontak", "Integrasi WhatsApp", "SEO & Analytics", "Hosting (1 tahun)"],
-    detail: {
-      description: "Halaman pemasaran satu tujuan yang dirancang untuk mengubah pengunjung menjadi pelanggan. Setiap elemen diposisikan untuk mendorong konversi.",
-      includes: [
-        { label: "Struktur Halaman", items: ["4–6 seksi konten terstruktur", "Hero section yang menarik perhatian", "Seksi layanan / produk", "Testimoni / social proof", "Seksi FAQ", "Call-to-Action yang jelas"] },
-        { label: "Integrasi", items: ["Tombol WhatsApp float", "Formulir kontak", "Google Analytics", "Facebook Pixel (opsional)", "Instagram feed opsional"] },
-        { label: "Teknis & Garansi", items: ["SEO dasar (meta, title, deskripsi)", "Hosting + SSL 1 tahun", "Loading < 3 detik", "2x revisi konten & desain"] },
-      ],
-      note: "Ideal untuk usaha baru, peluncuran produk, promo event, atau personal branding profesional.",
-    }
-  },
+},
   {
     tier: "03",
     title: "Company Profile",
