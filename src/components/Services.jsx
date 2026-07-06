@@ -99,40 +99,124 @@ const servicesList = [
     note: "Ideal untuk usaha baru, peluncuran produk, promo event, atau personal branding profesional. *Perpanjangan hosting + domain tahun berikutnya Rp 500.000/tahun.",
   },
 },
-  {
-    tier: "03",
-    title: "Company Profile",
-    subName: "Perusahaan & Organisasi",
-    price: "Rp 700rb – 1.5jt",
-    duration: "5–7 Hari",
-    features: ["5–7 halaman lengkap", "SEO penuh", "Formulir & Google Maps", "Blog opsional", "3x revisi + support"],
-    detail: {
-      description: "Website profesional multi-halaman yang membangun kepercayaan dan kredibilitas perusahaan Anda di mata klien, mitra, dan investor.",
-      includes: [
-        { label: "Halaman Utama", items: ["Beranda (Home)", "Tentang Kami (About)", "Layanan / Produk", "Portofolio / Proyek", "Tim & Struktur", "Kontak lengkap"] },
-        { label: "Fitur Lanjutan", items: ["Blog / Artikel (opsional)", "Formulir kontak + email notifikasi", "Embed Google Maps", "SEO penuh (semua halaman)", "Google Analytics terintegrasi"] },
-        { label: "Layanan Purna Jual", items: ["Hosting + SSL 1 tahun", "3x revisi desain & konten", "Dukungan teknis 7 hari setelah selesai", "Panduan pengelolaan konten"] },
-      ],
-      note: "Direkomendasikan untuk perusahaan, CV, PT, yayasan, organisasi, dan lembaga yang ingin tampil profesional.",
-    }
+{
+  tier: "03",
+  title: "Company Profile",
+  subName: "Perusahaan & Organisasi",
+  price: "Mulai Rp 1.999.000",
+  duration: "5–7 Hari",
+  features: [
+    "5–7 halaman profesional",
+    "CMS — kelola konten sendiri",
+    "Domain .com + Hosting (1 tahun)",
+    "SEO penuh & Google Analytics",
+    "3x revisi + dukungan 7 hari",
+  ],
+  detail: {
+    includes: [
+      {
+        label: "Halaman Utama",
+        items: [
+          "Beranda (Home)",
+          "Tentang Kami (About)",
+          "Layanan / Produk",
+          "Portofolio / Proyek",
+          "Tim & Struktur",
+          "Kontak lengkap",
+        ],
+      },
+      {
+        label: "Fitur & Integrasi",
+        items: [
+          "Formulir kontak + notifikasi email",
+          "Embed Google Maps",
+          "Google Analytics terintegrasi",
+          "SEO penuh (meta, sitemap, semua halaman)",
+          "CMS — admin panel untuk kelola konten",
+        ],
+      },
+      {
+        label: "Teknis & Infrastruktur",
+        items: [
+          "Domain .com (1 tahun, atas nama klien)",
+          "Hosting NVMe SSD (1 tahun)",
+          "SSL gratis (HTTPS)",
+          "Loading < 3 detik",
+          "Mobile responsive",
+        ],
+      },
+      {
+        label: "Layanan & Garansi",
+        items: [
+          "3x revisi konten & desain",
+          "Dukungan teknis gratis 7 hari setelah live",
+          "Panduan pengelolaan konten",
+          "Akun hosting & domain diserahkan ke klien",
+        ],
+      },
+    ],
+    note: "Direkomendasikan untuk perusahaan, CV, PT, yayasan, organisasi, dan lembaga yang ingin tampil profesional.",
   },
-  {
-    tier: "04",
-    title: "Web Portofolio",
-    subName: "Individu & Kreator",
-    price: "Rp 300rb – 600rb",
-    duration: "3–4 Hari",
-    features: ["3–5 halaman web", "Galeri karya", "Halaman kontak", "SEO dasar", "Desain responsif"],
-    detail: {
-      description: "Etalase digital yang menampilkan karya terbaik Anda dengan tampilan bersih dan berkesan. Sempurna untuk freelancer, desainer, fotografer, dan kreator konten.",
-      includes: [
-        { label: "Halaman", items: ["Beranda / Hero personal", "Tentang saya", "Galeri karya / proyek", "Halaman detail proyek", "Kontak & media sosial"] },
-        { label: "Galeri & Media", items: ["Grid galeri responsif", "Lightbox preview karya", "Filter kategori karya", "Embed video YouTube/Vimeo"] },
-        { label: "Teknis", items: ["SEO dasar", "Hosting + SSL 1 tahun", "Mobile-first design", "2x revisi desain"] },
-      ],
-      note: "Cocok untuk fotografer, desainer grafis, ilustrator, videografer, developer, dan profesional kreatif.",
-    }
+},
+{
+  tier: "04",
+  title: "Web Portofolio",
+  subName: "Individu & Kreator",
+  price: "Mulai Rp 350.000",
+  duration: "2–3 Hari",
+  features: [
+    "Single page scroll",
+    "Grid karya + modal preview",
+    "Domain .my.id (1 tahun)",
+    "SEO dasar & mobile-first",
+    "2x revisi desain",
+  ],
+  detail: {
+    description:
+      "Etalase digital satu halaman yang menampilkan karya terbaik Anda dengan tampilan bersih dan berkesan. Dirancang agar recruiter dan klien langsung menemukan semua informasi tanpa perlu berpindah halaman.",
+    includes: [
+      {
+        label: "Struktur Halaman",
+        items: [
+          "Hero section — nama, tagline, foto/avatar",
+          "Grid galeri karya dengan modal preview",
+          "Filter kategori karya",
+          "Tentang saya — bio singkat & keahlian",
+          "Kontak & tautan media sosial",
+        ],
+      },
+      {
+        label: "Galeri & Media",
+        items: [
+          "Grid responsif (2–3 kolom)",
+          "Modal lightbox saat karya diklik",
+          "Embed video YouTube/Vimeo (opsional)",
+          "Animasi scroll ringan",
+        ],
+      },
+      {
+        label: "Teknis & Infrastruktur",
+        items: [
+          "Domain .my.id (1 tahun, atas nama klien)",
+          "Hosting gratis (cloud infrastructure)",
+          "SSL gratis (HTTPS)",
+          "Loading < 3 detik",
+          "Mobile-first design",
+        ],
+      },
+      {
+        label: "Layanan",
+        items: [
+          "SEO dasar (meta title, deskripsi)",
+          "2x revisi desain",
+          "Dukungan teknis 7 hari setelah live",
+        ],
+      },
+    ],
+    note:
+      "Cocok untuk fotografer, desainer grafis, ilustrator, videografer, developer, dan profesional kreatif.",
   },
+},
   {
     tier: "05",
     title: "Pemeliharaan",
