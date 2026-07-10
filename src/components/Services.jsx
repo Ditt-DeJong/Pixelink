@@ -217,23 +217,6 @@ const servicesList = [
       "Cocok untuk fotografer, desainer grafis, ilustrator, videografer, developer, dan profesional kreatif.",
   },
 },
-  {
-    tier: "05",
-    title: "Pemeliharaan",
-    subName: "Semua Klien Aktif",
-    price: "Rp 150rb – 350rb",
-    duration: "Ongoing",
-    features: ["Pembaruan konten", "Backup rutin", "Laporan bulanan", "Perbaikan bug", "Dukungan prioritas"],
-    detail: {
-      description: "Layanan perawatan website bulanan agar website Anda selalu dalam kondisi prima, aman, dan up-to-date tanpa perlu repot mengurus sendiri.",
-      includes: [
-        { label: "Paket Basic (Rp 150rb/bln)", items: ["Pembaruan konten 2x per bulan", "Backup data mingguan", "Monitoring uptime", "Laporan kondisi website bulanan"] },
-        { label: "Paket Full (Rp 350rb/bln)", items: ["Pembaruan konten tidak terbatas", "Backup data harian", "Perbaikan bug & error minor", "Update plugin / tema", "Laporan performa & analitik bulanan", "Dukungan prioritas via WhatsApp"] },
-        { label: "Garansi Layanan", items: ["Respons dalam 24 jam kerja", "Tidak ada biaya tambahan untuk perbaikan rutin", "Konsultasi gratis 1x per bulan"] },
-      ],
-      note: "Tersedia untuk semua website yang dikerjakan oleh Kabin Code maupun website dari vendor lain.",
-    }
-  }
 ];
 
 /* ── Modal Detail ─────────────────────────────────────────────── */
@@ -549,8 +532,12 @@ const Services = () => {
         </div>
 
         <div
-          className="col-full grid"
-          style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: 'var(--s4)' }}
+          className="col-full"
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))',
+            gap: 'var(--s6)',
+          }}
           data-reveal
         >
           {servicesList.map((srv, i) => (

@@ -1,19 +1,11 @@
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { Calculator, Clock, MessageSquare, DollarSign } from 'lucide-react';
 
 const basePackages = [
-  { id: 'landing',   label: 'Landing Page Bisnis', basePrice: 800000,  days: 4, desc: 'Pemasaran & personal branding' },
-  { id: 'comprof',   label: 'Company Profile',      basePrice: 1500000, days: 6, desc: 'Website korporat & organisasi' },
-  { id: 'undangan',  label: 'Undangan Digital',      basePrice: 300000,  days: 3, desc: 'Animasi premium & RSVP WhatsApp' },
-  { id: 'portfolio', label: 'Website Portofolio',    basePrice: 600000,  days: 4, desc: 'Galeri eksklusif untuk kreator' }
-];
-
-const addOnFeatures = [
-  { id: 'seo',       label: 'SEO & Analytics',   price: 150000, days: 1, desc: 'Optimasi Google + laporan bulanan' },
-  { id: 'multilang', label: 'Multi-Bahasa',       price: 200000, days: 2, desc: 'Dukungan EN + ID' },
-  { id: 'whatsapp',  label: 'Integrasi WhatsApp', price: 100000, days: 1, desc: 'Notifikasi & booking via chat' },
-  { id: 'anim',      label: 'Animasi Premium',    price: 150000, days: 1, desc: 'GSAP + transisi eksklusif' },
-  { id: 'branding',  label: 'Identitas Visual',   price: 300000, days: 2, desc: 'Logo, warna, & panduan merek' }
+  { id: 'undangan',  label: 'Undangan Digital',     basePrice: 99000,   days: 3, desc: 'RSVP WhatsApp & buku tamu digital' },
+  { id: 'landing',   label: 'Landing Page',         basePrice: 1099000, days: 4, desc: 'Pemasaran & personal branding' },
+  { id: 'comprof',   label: 'Company Profile',      basePrice: 1999000, days: 6, desc: 'Website profesional perusahaan' },
+  { id: 'portfolio', label: 'Web Portofolio',       basePrice: 350000,  days: 3, desc: 'Showcase karya kreator' }
 ];
 
 const fmt = val =>
@@ -33,39 +25,40 @@ const inputBase = {
 };
 
 const Contact = () => {
-  const [selectedPkg, setSelectedPkg] = useState('landing');
-  const [addons, setAddons]           = useState([]);
+  const [selectedPkg, setSelectedPkg] = useState('undangan');
   const [name, setName]               = useState('');
   const [email, setEmail]             = useState('');
   const [brief, setBrief]             = useState('');
 
-  const toggleAddon = useCallback(
-    id => setAddons(prev => prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]), []
-  );
-
-  const { totalCost, totalDays } = useMemo(() => {
+  const { totalCost, totalDays, pkgLabel } = useMemo(() => {
     const pkg = basePackages.find(p => p.id === selectedPkg);
-    if (!pkg) return { totalCost: 0, totalDays: 0 };
-    let cost = pkg.basePrice, days = pkg.days;
-    addons.forEach(id => {
-      const a = addOnFeatures.find(x => x.id === id);
-      if (a) { cost += a.price; days += a.days; }
-    });
-    return { totalCost: cost, totalDays: days };
-  }, [selectedPkg, addons]);
+    if (!pkg) return { totalCost: 0, totalDays: 0, pkgLabel: '' };
+    return { totalCost: pkg.basePrice, totalDays: pkg.days, pkgLabel: pkg.label };
+  }, [selectedPkg]);
 
   const handleSubmit = e => {
     e.preventDefault();
-    const pkg = basePackages.find(p => p.id === selectedPkg);
-    const addonsText = addons.length
-      ? addons.map(id => `- ${addOnFeatures.find(a => a.id === id)?.label}`).join('%0A')
-      : '- Tidak ada';
-    const msg =
-      `Halo Pixelink.io!%0A%0ABerikut detail proyek saya:%0A%0A` +
-      `*Nama:* ${name || 'Klien Baru'}%0A*Email:* ${email || '-'}%0A%0A` +
-      `*Paket:* ${pkg?.label}%0A*Add-ons:*%0A${addonsText}%0A%0A` +
-      `*Estimasi Biaya:* ${fmt(totalCost)}%0A*Estimasi Waktu:* ± ${totalDays} Hari%0A%0A` +
-      `*Brief:* "${brief || '-'}"`;
+    
+    // Format pesan WhatsApp yang clean dan rapi
+    const msg = [
+      `Halo KabinCode!`,
+      ``,
+      `Saya tertarik untuk memulai proyek website.`,
+      ``,
+      `*INFORMASI KLIEN*`,
+      `Nama: ${name}`,
+      `Email: ${email}`,
+      ``,
+      `*PAKET DIPILIH*`,
+      `${pkgLabel}`,
+      `Estimasi: ${fmt(totalCost)} • ±${totalDays} hari kerja`,
+      ``,
+      `*BRIEF PROYEK*`,
+      `${brief || 'Akan dijelaskan lebih lanjut'}`,
+      ``,
+      `Mohon info lebih lanjut. Terima kasih!`
+    ].join('%0A');
+
     window.open(`https://wa.me/6285875595727?text=${msg}`, '_blank');
   };
 
@@ -160,43 +153,10 @@ const Contact = () => {
 
               {/* Step 3 */}
               <div>
-                <p style={{ ...labelStyle, marginBottom: 'var(--s4)', color: 'var(--accent)' }}>03 — Fitur Tambahan</p>
-                <div className="flex flex-col" style={{ gap: 'var(--s2)' }}>
-                  {addOnFeatures.map(addon => {
-                    const active = addons.includes(addon.id);
-                    return (
-                      <label key={addon.id} style={{
-                        display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-                        gap: 'var(--s4)',
-                        padding: 'var(--s3) var(--s4)',
-                        borderRadius: '8px',
-                        border: `1px solid ${active ? 'var(--accent)' : 'var(--border)'}`,
-                        background: active ? 'var(--accent-light)' : 'var(--bg-primary)',
-                        cursor: 'pointer',
-                        transition: 'border-color 0.2s, background 0.2s',
-                      }}>
-                        <input type="checkbox" checked={active} onChange={() => toggleAddon(addon.id)} style={{ display: 'none' }} />
-                        <div>
-                          <span style={{ fontFamily: 'var(--font-display)', fontWeight: 600, fontSize: '0.84rem', color: 'var(--text-primary)', display: 'block', marginBottom: 'var(--s1)' }}>
-                            {addon.label}
-                          </span>
-                          <span style={{ fontSize: '0.73rem', color: 'var(--text-muted)' }}>{addon.desc}</span>
-                        </div>
-                        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: active ? 'var(--accent)' : 'var(--text-muted)', whiteSpace: 'nowrap' }}>
-                          +{fmt(addon.price)}
-                        </span>
-                      </label>
-                    );
-                  })}
-                </div>
-              </div>
-
-              {/* Step 4 */}
-              <div>
-                <p style={{ ...labelStyle, marginBottom: 'var(--s4)', color: 'var(--accent)' }}>04 — Brief Proyek</p>
+                <p style={{ ...labelStyle, marginBottom: 'var(--s4)', color: 'var(--accent)' }}>03 — Brief Proyek</p>
                 <textarea placeholder="Ceritakan kebutuhan dan visi proyek Anda..." value={brief}
                   onChange={e => setBrief(e.target.value)}
-                  style={{ ...inputBase, minHeight: '96px', resize: 'vertical' }}
+                  style={{ ...inputBase, minHeight: '120px', resize: 'vertical' }}
                   onFocus={e => (e.target.style.borderColor = 'var(--accent)')}
                   onBlur={e  => (e.target.style.borderColor = 'var(--border)')} />
               </div>
@@ -220,7 +180,7 @@ const Contact = () => {
               Paket Dipilih
             </p>
             <p style={{ fontFamily: 'var(--font-display)', fontWeight: 600, fontSize: '1rem', color: 'var(--text-primary)', marginBottom: 'var(--s6)' }}>
-              {basePackages.find(p => p.id === selectedPkg)?.label}
+              {pkgLabel}
             </p>
 
             <div style={{ height: '1px', background: 'var(--border)', marginBottom: 'var(--s6)' }} />
@@ -258,26 +218,6 @@ const Contact = () => {
                 </p>
               </div>
             </div>
-
-            {addons.length > 0 && (
-              <>
-                <div style={{ height: '1px', background: 'var(--border)', margin: 'var(--s6) 0' }} />
-                <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.62rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: 'var(--s3)' }}>
-                  Fitur Tambahan
-                </p>
-                <div className="flex flex-col" style={{ gap: 'var(--s2)' }}>
-                  {addons.map(id => {
-                    const a = addOnFeatures.find(x => x.id === id);
-                    return a ? (
-                      <div key={id} className="flex justify-between">
-                        <span style={{ fontSize: '0.78rem', color: 'var(--text-secondary)' }}>{a.label}</span>
-                        <span style={{ fontSize: '0.72rem', color: 'var(--accent)', fontFamily: 'var(--font-mono)' }}>+{fmt(a.price)}</span>
-                      </div>
-                    ) : null;
-                  })}
-                </div>
-              </>
-            )}
           </div>
 
         </div>
